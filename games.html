@@ -1,9 +1,16 @@
+<?php
+session_start();
+if (!isset($_SESSION['email'])) {
+    header("Location: login.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chat GPT API</title>
+  <title>Engagement Zone - VolunteerHub</title>
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -49,24 +56,196 @@
     box-shadow: 0 4px 10px rgba(255, 221, 193, 0.2);
 }
 
+.points-section {
+    background: linear-gradient(135deg, #FFD3B5, #FFAAA5);
+    padding: 40px 0;
+    color: white;
+    text-align: center;
+    margin-top: 80px;
+}
+
+.points-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.points-value {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.game-buttons {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.btn-game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    background: white;
+    border-radius: 20px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.btn-game:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    color: #333;
+}
+
+.game-icon {
+    font-size: 2.5rem;
+    color: #FFD3B5;
+    margin-bottom: 15px;
+}
+
+.game-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.game-description {
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+}
+
+.fun-section {
+    background: #f8f9fa;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.fun-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    margin: 20px 0;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.fun-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.fun-icon {
+    font-size: 3rem;
+    color: #FFD3B5;
+    margin-bottom: 20px;
+}
+
+.game-stats-section {
+    padding: 60px 0;
+    background: #f8f9fa;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #333;
+    font-size: 2rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-icon {
+    font-size: 2.5rem;
+    color: #FFD3B5;
+    margin-bottom: 20px;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #FF6B6B;
+    margin-top: 10px;
+}
+
+.leaderboard-section {
+    padding: 60px 0;
+}
+
+.leaderboard-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    border-top: none;
+    color: #666;
+    font-weight: 600;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.rank-1 {
+    color: gold;
+    font-weight: bold;
+}
+
+.rank-2 {
+    color: silver;
+    font-weight: bold;
+}
+
+.rank-3 {
+    color: #cd7f32;
+    font-weight: bold;
+}
 
   </style>
+  <?php include 'includes/theme_includes.php'; ?>
 </head>
 <header id="header" class="header d-flex align-items-center fixed-top">
   <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
     <a href="index.html" class="logo d-flex align-items-center">
-      <h1 class="sitename">Famify</h1>
+      <h1 class="sitename">VolunteerHub</h1>
     </a>
 
     <nav id="navmenu" class="navmenu">
       <ul>
-      <li><a href="member.php">Family center</a></li>      
-        <li><a href="games.php">Games</a></li>
+      <li><a href="member.php">Organization Center</a></li>      
+        <li><a href="games.php">Engagement Zone</a></li>
         <li><a href="account.php">Your Account</a></li>
-        <li><a href="rew.php">Rewards</a></li>
+        <li><a href="rew.php">Achievements</a></li>
         
-        <li><a href="ai.php">Chore ai</a></li>
+        <li><a href="ai.php">Volunteer Support AI</a></li>
 
         <li><a href="logout.php">Logout</a></li>
       </ul>
@@ -85,8 +264,8 @@
       
             <div class="carousel-item active">
               <div class="carousel-container">
-                <h2>Games</h2>
-                <p>Challenge yourself with a fun and interactive math quiz! Solve problems, test your skills, and improve your abilities.</p>
+                <h2>Engagement Zone</h2>
+                <p>Engage with fun activities and team-building games! Participate in community challenges, test your skills, and earn volunteer credits.</p>
               </div>
             </div>
       
@@ -132,13 +311,243 @@
 
      
       <div class="game-buttons text-center">
-        <a href="game1.html" class="btn-game">Math Quiz</a>
-        <a href="game2.html" class="btn-game">Rotation Game</a>
-        <a href="game3.html" class="btn-game">Flappy Block</a>
-        <a href="game4.html" class="btn-game">Tic Tac Toe</a>
+        <a href="game1.html" class="btn-game">
+            <i class="bi bi-calculator game-icon"></i>
+            <span class="game-title">Math Quiz</span>
+            <span class="game-description">Test your math skills with fun questions!</span>
+        </a>
+        <a href="game2.html" class="btn-game">
+            <i class="bi bi-grid-3x3 game-icon"></i>
+            <span class="game-title">Memory Match</span>
+            <span class="game-description">Match pairs of emojis to win!</span>
+        </a>
+        <a href="game3.html" class="btn-game">
+            <i class="bi bi-type game-icon"></i>
+            <span class="game-title">Word Scramble</span>
+            <span class="game-description">Unscramble volunteer-related words!</span>
+        </a>
+        <a href="game4.html" class="btn-game">
+            <i class="bi bi-palette game-icon"></i>
+            <span class="game-title">Color Match</span>
+            <span class="game-description">Match pairs of colors before time runs out!</span>
+        </a>
     </div>
     
+      <section class="game-stats-section">
+        <div class="container">
+            <h2 class="section-title">Your Game Stats</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <i class="bi bi-trophy stat-icon"></i>
+                        <h3>Games Played</h3>
+                        <div class="stat-value" id="games-played">0</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <i class="bi bi-star stat-icon"></i>
+                        <h3>Total Points</h3>
+                        <div class="stat-value" id="total-points">0</div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <i class="bi bi-graph-up stat-icon"></i>
+                        <h3>Win Rate</h3>
+                        <div class="stat-value" id="win-rate">0%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
 
+      <section class="leaderboard-section">
+        <div class="container">
+            <h2 class="section-title">Family Leaderboard</h2>
+            <div class="leaderboard-card">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Player</th>
+                                <th>Points</th>
+                                <th>Games Won</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leaderboard-body">
+                            <!-- Leaderboard data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+      </section>
+
+      <section class="points-section">
+        <div class="container">
+            <div class="points-card">
+                <h2>Your Points Balance</h2>
+                <div class="points-value" id="points-value">Loading...</div>
+                <p>Complete games to earn more points!</p>
+            </div>
+        </div>
+      </section>
+
+      <section class="fun-section">
+        <div class="container">
+            <h2>Fun Facts</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="fun-card">
+                        <i class="bi bi-trophy fun-icon"></i>
+                        <h3>Daily Streak</h3>
+                        <p>Play games daily to maintain your streak and earn bonus points!</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="fun-card">
+                        <i class="bi bi-star fun-icon"></i>
+                        <h3>High Scores</h3>
+                        <p>Compete with family members for the highest scores!</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="fun-card">
+                        <i class="bi bi-gift fun-icon"></i>
+                        <h3>Rewards</h3>
+                        <p>Use your points to redeem exciting rewards!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+
+      <style>
+        .game-stats-section {
+            padding: 60px 0;
+            background: #f8f9fa;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #333;
+            font-size: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+            color: #FFD3B5;
+            margin-bottom: 20px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FF6B6B;
+            margin-top: 10px;
+        }
+
+        .leaderboard-section {
+            padding: 60px 0;
+        }
+
+        .leaderboard-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table th {
+            border-top: none;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .table td {
+            vertical-align: middle;
+        }
+
+        .rank-1 {
+            color: gold;
+            font-weight: bold;
+        }
+
+        .rank-2 {
+            color: silver;
+            font-weight: bold;
+        }
+
+        .rank-3 {
+            color: #cd7f32;
+            font-weight: bold;
+        }
+      </style>
+
+      <script>
+        // Fetch points when page loads
+        fetchPoints();
+
+        // Fetch game stats
+        function fetchGameStats() {
+            // This would typically come from your backend
+            document.getElementById('games-played').textContent = '12';
+            document.getElementById('total-points').textContent = '240';
+            document.getElementById('win-rate').textContent = '75%';
+        }
+
+        // Fetch leaderboard data
+        function fetchLeaderboard() {
+            // This would typically come from your backend
+            const leaderboardData = [
+                { rank: 1, name: 'John', points: 500, gamesWon: 25 },
+                { rank: 2, name: 'Sarah', points: 450, gamesWon: 22 },
+                { rank: 3, name: 'Mike', points: 400, gamesWon: 20 },
+                { rank: 4, name: 'Emma', points: 350, gamesWon: 18 },
+                { rank: 5, name: 'David', points: 300, gamesWon: 15 }
+            ];
+
+            const leaderboardBody = document.getElementById('leaderboard-body');
+            leaderboardBody.innerHTML = '';
+
+            leaderboardData.forEach(player => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="rank-${player.rank}">#${player.rank}</td>
+                    <td>${player.name}</td>
+                    <td>${player.points}</td>
+                    <td>${player.gamesWon}</td>
+                `;
+                leaderboardBody.appendChild(row);
+            });
+        }
+
+        // Initialize sections
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchGameStats();
+            fetchLeaderboard();
+        });
+      </script>
  
   <footer id="footer" class="footer dark-background">
 
@@ -165,13 +574,13 @@
   <div class="row gy-4">
     <div class="col-lg-4 col-md-6 footer-about">
       <a href="index.html" class="d-flex align-items-center">
-        <span class="sitename">Famify</span>
+        <span class="sitename">VolunteerHub</span>
       </a>
       <div class="footer-contact pt-3">
         <p>1234 Elm Street</p>
         <p>Los Angeles, CA 90001</p>
         <p class="mt-3"><strong>Phone:</strong> <span>+1 2345 6789 01</span></p>
-        <p><strong>Email:</strong> <span>famify@info.com</span></p>
+        <p><strong>Email:</strong> <span>volunteerhub@info.com</span></p>
       </div>
     </div>
 
@@ -192,7 +601,7 @@
       <h4>Our Services</h4>
       <ul>
         <li><i class="bi bi-chevron-right"></i> <a href="#">Keeping Your Family Organized</a></li>
-        <li><i class="bi bi-chevron-right"></i> <a href="#">How Famify Keeps Your Family on Track</a></li>
+        <li><i class="bi bi-chevron-right"></i> <a href="#">How VolunteerHub Keeps Your Organization on Track</a></li>
         <li><i class="bi bi-chevron-right"></i> <a href="#">Manage Chores and Rewards</a></li>
         <li><i class="bi bi-chevron-right"></i> <a href="#">Effortless Communication</a></li>
       </ul>
@@ -212,11 +621,13 @@
 </div>
 
 <div class="container copyright text-center mt-4">
-  <p>© <span>Copyright</span> <strong class="px-1 sitename">Famify</strong> <span>All Rights Reserved</span></p>
+  <p>© <span>Copyright</span> <strong class="px-1 sitename">VolunteerHub</strong> <span>All Rights Reserved</span></p>
 </div>
 
 </footer>
 
-
 </body>
 </html>
+
+
+

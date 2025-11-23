@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "famify";
+$dbname = "famify"; // Note: Database can be renamed to "volunteer_platform" via SQL
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {

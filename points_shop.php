@@ -7,53 +7,140 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Handle adding a reward
+$manager_email = $_SESSION['email'];
+
+// Handle adding an achievement
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_reward'])) {
-    $name = $_POST['reward_name'];
-    $points = $_POST['reward_points'];
-    $image = $_FILES['reward_image']['name'];
-    $targetDir = __DIR__ . "/uploads/";
-    $targetFile = $targetDir . basename($image);
+    $name = trim($_POST['reward_name']);
+    $points = intval($_POST['reward_points']);
+    $description = trim($_POST['reward_description']);
     
-    // Check if file is uploaded
-    if (!empty($image) && move_uploaded_file($_FILES['reward_image']['tmp_name'], $targetFile)) {
-        $stmt = $conn->prepare("INSERT INTO rewards (name, image, points_required) VALUES (?, ?, ?)");
-        if ($stmt) {
+    // Handle file upload
+    $targetDir = "uploads/";
+    if (!file_exists($targetDir)) {
+        mkdir($targetDir, 0777, true);
+    }
+    
+    $image = time() . '_' . basename($_FILES['reward_image']['name']);
+    $targetFile = $targetDir . $image;
+    
+    if (move_uploaded_file($_FILES['reward_image']['tmp_name'], $targetFile)) {
+        // Insert reward - using the correct table structure
+        $sql = "INSERT INTO rewards (name, image, points_required, assigned_to) VALUES (?, ?, ?, '')";
+        $stmt = $conn->prepare($sql);
+        
+        if ($stmt === false) {
+            echo "<script>alert('Error preparing statement: " . $conn->error . "');</script>";
+        } else {
             $stmt->bind_param("ssi", $name, $image, $points);
+            
             if ($stmt->execute()) {
-                echo "Reward added successfully!";
+                echo "<script>alert('Achievement added successfully!'); window.location.href='points_shop.php';</script>";
             } else {
-                echo "Error adding reward: " . $stmt->error;
+                echo "<script>alert('Error adding reward: " . $stmt->error . "');</script>";
             }
             $stmt->close();
-        } else {
-            echo "Database error: " . $conn->error;
         }
     } else {
-        echo "Error uploading file.";
+        echo "<script>alert('Error uploading file.');</script>";
     }
 }
 
-// Handle assigning a reward
+// Handle assigning an achievement
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['assign_reward'])) {
-    $member_email = $_POST['member_email'];
-    $reward_id = $_POST['reward_id'];
+    $member_email = trim($_POST['member_email']);
+    $reward_id = intval($_POST['reward_id']);
     
-    $stmt = $conn->prepare("INSERT INTO assigned_rewards (member_email, reward_id) VALUES (?, ?)");
+    // First check if the member exists in the family table
+    $check_member = $conn->prepare("SELECT member_email FROM family WHERE member_email = ?");
+    $check_member->bind_param("s", $member_email);
+    $check_member->execute();
+    $result = $check_member->get_result();
+    
+    if ($result->num_rows > 0) {
+        // Check if reward is already assigned
+        $check_assignment = $conn->prepare("SELECT id FROM assigned_rewards WHERE reward_id = ? AND member_email = ?");
+        $check_assignment->bind_param("is", $reward_id, $member_email);
+        $check_assignment->execute();
+        $assignment_result = $check_assignment->get_result();
+        
+        if ($assignment_result->num_rows == 0) {
+            $stmt = $conn->prepare("INSERT INTO assigned_rewards (member_email, reward_id, status) VALUES (?, ?, 'pending')");
     if ($stmt) {
         $stmt->bind_param("si", $member_email, $reward_id);
         if ($stmt->execute()) {
-            echo "Reward assigned successfully!";
+                    echo "<script>alert('Achievement assigned successfully!');</script>";
+                } else {
+                    echo "<script>alert('Error assigning reward: " . $stmt->error . "');</script>";
+                }
+                $stmt->close();
+            } else {
+                echo "<script>alert('Database error: " . $conn->error . "');</script>";
+            }
         } else {
-            echo "Error assigning reward: " . $stmt->error;
+            echo "<script>alert('This achievement is already assigned to this volunteer.');</script>";
         }
-        $stmt->close();
+        $check_assignment->close();
     } else {
-        echo "Database error: " . $conn->error;
+        echo "<script>alert('Volunteer not found. Please enter a valid volunteer email.');</script>";
+    }
+    $check_member->close();
+}
+
+// Get all rewards
+$rewards = $conn->query("SELECT * FROM rewards ORDER BY points_required ASC");
+if (!$rewards) {
+    echo "<script>alert('Error fetching rewards: " . $conn->error . "');</script>";
+} else {
+    // Debug: Show number of rewards found
+    $num_rewards = $rewards->num_rows;
+    echo "<script>console.log('Number of rewards found: " . $num_rewards . "');</script>";
+    
+    // Debug: Show first reward if any
+    if ($num_rewards > 0) {
+        $first_reward = $rewards->fetch_assoc();
+        echo "<script>console.log('First reward: " . json_encode($first_reward) . "');</script>";
+        // Reset the pointer back to the beginning
+        $rewards->data_seek(0);
     }
 }
 
-$rewards = $conn->query("SELECT * FROM rewards");
+// Get family members for the current manager
+$family_members = $conn->prepare("SELECT member_email FROM family WHERE managers_email = ?");
+$family_members->bind_param("s", $manager_email);
+$family_members->execute();
+$members_result = $family_members->get_result();
+
+// Get assigned rewards
+$assigned_rewards_query = "SELECT r.*, ar.status, ar.member_email 
+                         FROM rewards r 
+                         INNER JOIN assigned_rewards ar ON r.id = ar.reward_id 
+                         WHERE ar.member_email IN (
+                             SELECT member_email 
+                             FROM family 
+                             WHERE managers_email = ?
+                         )
+                         ORDER BY ar.created_at DESC";
+
+try {
+    $assigned_stmt = $conn->prepare($assigned_rewards_query);
+    if (!$assigned_stmt) {
+        throw new Exception("Error preparing assigned rewards query: " . $conn->error);
+    }
+
+    $assigned_stmt->bind_param("s", $manager_email);
+    if (!$assigned_stmt->execute()) {
+        throw new Exception("Error executing assigned rewards query: " . $assigned_stmt->error);
+    }
+
+    $assigned_rewards = $assigned_stmt->get_result();
+    if (!$assigned_rewards) {
+        throw new Exception("Error getting assigned rewards result: " . $assigned_stmt->error);
+    }
+} catch (Exception $e) {
+    echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
+    $assigned_rewards = false;
+}
 ?>
 
 <!DOCTYPE html>
@@ -62,7 +149,7 @@ $rewards = $conn->query("SELECT * FROM rewards");
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Family manager - Famify</title>
+  <title>Achievements Shop - VolunteerHub</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
   <link href="assets/img/favicon.png" rel="icon">
@@ -76,146 +163,386 @@ $rewards = $conn->query("SELECT * FROM rewards");
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
-<style>
-    /* Style the default file input */
-input[type="file"] {
+  <style>
+    .header {
+      --background-color: #FFDDC1 !important;
+      background-color: #FFDDC1 !important;
+    }
+    body {
+        font-family: 'Poppins', sans-serif;
+        margin: 0;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    }
+
+    .rewards-section {
+        padding: 60px 0;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .rewards-grid {
+        background: #fff;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        margin-top: 30px;
+    }
+
+    .rewards-grid h2 {
+        text-align: center;
+        font-size: 36px;
+        margin-bottom: 50px;
+        font-weight: 600;
+        position: relative;
+        padding-bottom: 15px;
+        color: #333;
+    }
+
+    .rewards-grid h2:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 3px;
+        background: #FFD3B5;
+    }
+
+    .rewards-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        margin-top: 30px;
+    }
+
+    .reward-card {
+        background: #fff;
+        border-radius: 16px;
+        padding: 25px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        border: 1px solid #FFD3B5;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
     position: relative;
-    display: inline-block;
-    padding: 12px;
-    background: transparent;
-    color: #FFD3B5; /* Warm peach text */
-    border: 2px solid #FFD3B5; /* Warm peach border */
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
+        overflow: hidden;
+    }
+
+    .reward-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    }
+
+    .reward-image {
     width: 100%;
-    max-width: 250px;
-    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 12px;
+        margin-bottom: 20px;
+        transition: transform 0.3s ease;
 }
 
-/* Remove default browser styles */
-input[type="file"]::-webkit-file-upload-button {
-    visibility: hidden;
-}
+    .reward-card:hover .reward-image {
+        transform: scale(1.02);
+    }
 
-/* Custom file button inside the input */
-input[type="file"]::before {
-    content: "Choose File";
-    display: inline-block;
-    background: transparent;
-    color: #FFD3B5; /* Warm peach text */
-    border: 2px solid #FFD3B5; /* Warm peach border */
-    border-radius: 8px;
-    padding: 12px 24px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    text-align: center;
-}
+    .reward-name {
+        font-size: 22px;
+        margin: 15px 0;
+        font-weight: 600;
+        line-height: 1.3;
+        color: #333;
+    }
 
-/* Hover effect */
-input[type="file"]:hover::before {
-    background: #FFD3B5; /* Warm peach background */
-    color: #333; /* Dark text for contrast */
-    transform: scale(1.05); /* Slight bounce */
-}
-/* Style the entire form */
-form {
+    .reward-details {
+        margin: 20px 0;
     display: flex;
     flex-direction: column;
+        gap: 12px;
+    }
+
+    .reward-details p {
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.5;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .reward-details strong {
+        font-weight: 600;
+        min-width: 120px;
+        color: #555;
+    }
+
+    .points-badge {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #FFD3B5;
+        color: #333;
+    }
+
+    .status-badge {
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .status-badge.success {
+        background: #d4edda;
+        color: #155724;
+    }
+
+    .status-badge.warning {
+        background: #fff3cd;
+        color: #856404;
+    }
+
+    .btn-success {
+        margin-top: auto;
+        padding: 12px 20px;
+        border-radius: 12px;
+        font-size: 15px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
     align-items: center;
-    gap: 15px;
-    padding: 20px;
-    background: rgba(255, 211, 181, 0.1); /* Light warm peach background */
-    border: 2px solid #B87350; /* Darker warm peach border */
+        justify-content: center;
+        gap: 8px;
+        background: #FFD3B5;
+        color: #333;
+        border: none;
+    }
+
+    .btn-success:hover {
+        background: #FFAAA5;
+        transform: translateY(-2px);
+    }
+
+    .no-rewards {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 60px 20px;
+        background: #fff;
+        border-radius: 16px;
+        border: 2px dashed #FFD3B5;
+    }
+
+    .no-rewards p {
+        font-size: 18px;
+        line-height: 1.6;
+        max-width: 500px;
+        margin: 0 auto;
+        color: #666;
+    }
+
+    .form-section {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+
+    .reward-form-card {
+        background: white;
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .reward-form-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .form-title {
+        color: #333;
+        font-size: 28px;
+        font-weight: 600;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    .form-group label {
+        display: block;
+        color: #555;
+        font-weight: 500;
+        margin-bottom: 8px;
+        font-size: 14px;
+    }
+
+    .inputForm {
+        position: relative;
+        border: 2px solid #e1e1e1;
     border-radius: 12px;
-    width: 90%;
-    max-width: 400px;
-    margin: 20px auto;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        background: #f8f9fa;
+    }
+
+    .inputForm:focus-within {
+        border-color: #FFD3B5;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(255, 211, 181, 0.1);
 }
 
-/* Input Fields */
-input, select {
+    .form-control {
     width: 100%;
-    padding: 12px;
-    border: 2px solid #B87350; /* Darker warm peach border */
-    border-radius: 8px;
+        padding: 15px;
+        border: none;
     background: transparent;
-    color: white;
+        font-size: 15px;
+        color: #333;
+    }
+
+    .form-control:focus {
     outline: none;
-    font-size: 16px;
-    transition: border-color 0.3s ease-in-out;
-}
+    }
 
-input::placeholder, select {
-    color: #FFD3B5; /* Warm peach placeholder text */
-}
+    textarea.form-control {
+        min-height: 120px;
+        resize: vertical;
+    }
 
-input:focus, select:focus {
-    border-color: #8A4F32; /* Even darker warm peach when focused */
-}
+    /* Custom File Upload */
+    .file-upload-wrapper {
+        position: relative;
+        margin-bottom: 20px;
+    }
 
-/* Custom File Upload Styling */
-input[type="file"] {
-    display: none;
-}
+    .file-upload-input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+    }
 
-/* Custom File Upload Button */
-.custom-file-upload {
-    display: inline-block;
-    padding: 12px 24px;
-    background: transparent;
-    color: #FFD3B5; /* Warm peach text */
-    border: 2px solid #B87350; /* Darker warm peach border */
-    border-radius: 8px;
+    .file-upload-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+        background: #f8f9fa;
+        border: 2px solid #e1e1e1;
+        border-radius: 12px;
+        color: #555;
+        font-size: 15px;
+        font-weight: 500;
     cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .file-upload-label:hover {
+        border-color: #FFD3B5;
+        background: white;
+    }
+
+    .file-upload-label i {
+        margin-right: 10px;
+        font-size: 20px;
+    }
+
+    .file-name {
+        margin-top: 8px;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .form-text {
+        margin-top: 8px;
+        font-size: 14px;
+        color: #666;
+    }
+
+    .button-group {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .submit-button {
+        flex: 1;
+        padding: 15px;
+        border: none;
+        border-radius: 12px;
     font-size: 16px;
-    font-weight: bold;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
     text-align: center;
-    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+        color: #333;
+        background: #FFD3B5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .submit-button:hover {
+        background: #FFAAA5;
+        transform: translateY(-2px);
 }
 
-/* Hover Effect for File Upload */
-.custom-file-upload:hover {
-    background: #B87350; /* Darker warm peach background */
-    color: #FFF5E1; /* Light text */
-    transform: scale(1.05);
-}
+    .submit-button i {
+        font-size: 20px;
+    }
 
-/* Button Styling */
-button {
-    background: transparent;
-    color: #FFD3B5; /* Warm peach text */
-    padding: 12px 24px;
-    border: 2px solid #B87350; /* Darker warm peach border */
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
-    width: 100%;
-    max-width: 200px;
-}
+    /* Responsive Design */
+    @media (max-width: 1200px) {
+        .rewards-container {
+            gap: 25px;
+        }
+    }
 
-/* Button Hover Effect */
-button:hover {
-    background: #B87350; /* Darker warm peach background */
-    color: #FFF5E1; /* Lighter text */
-    transform: scale(1.1); /* Bouncy effect */
-}
+    @media (max-width: 992px) {
+        .rewards-container {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .rewards-grid {
+            padding: 30px;
+        }
+    }
 
-/* Headings */
-h2 {
-    text-align: center;
-    color: #FFD3B5;
-    font-size: 24px;
-    margin-top: 30px;
+    @media (max-width: 768px) {
+        .rewards-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .rewards-grid {
+            padding: 25px;
+        }
+        
+        .rewards-grid h2 {
+            font-size: 28px;
+            margin-bottom: 35px;
 }
-
+    }
 </style>
+  <?php include 'includes/theme_includes.php'; ?>
 </head>
 
 <body class="index-page">
@@ -225,18 +552,18 @@ h2 {
   <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
     <a href="index.html" class="logo d-flex align-items-center">
-      <h1 class="sitename">Famify</h1>
+      <h1 class="sitename">VolunteerHub</h1>
     </a>
 
     <nav id="navmenu" class="navmenu">
       <ul>
-      <li><a href="famify.php">Family center</a></li>      
+      <li><a href="famify.php">Organization Center</a></li>      
       <li><a href="addfam.php" id="openModal">Add a Family Member</a></li>
         <li><a href="account.php">Your Account</a></li>
         <li><a href="connect.html">Connect</a></li>
         <li><a href="points_shop.php">Rewards</a></li>
-        
-        
+        <li><a href="family_calendar.php">Calendar</a></li>
+        <li><a href="donate.php">Donate</a></li>
         <li><a href="logout.php">Logout</a></li>
       </ul>
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -246,39 +573,187 @@ h2 {
 </header>
 
 
-<div class="page-title dark-background">
+<div class="page-title">
     <div class="container position-relative">
-      <h1>Reward System</h1>
-      <p>A way u can add rewards to family member with the points they've earned</p>
-      <nav class="breadcrumbs">
-      </nav>
+        <h1>Rewards Management</h1>
+        <p>Create and assign rewards like certificates, recognition badges, and achievements that volunteers can earn with their volunteer hours</p>
     </div>
   </div>
   
-  <h2>Add Reward</h2>
-<form method="POST" enctype="multipart/form-data">
-    <input type="text" name="reward_name" placeholder="Reward Name" required>
-    <input type="number" name="reward_points" placeholder="Points Required" required>
+<section class="rewards-section">
+    <div class="container">
+        <div class="form-section">
+            <div class="reward-form-card">
+                <h2 class="form-title">Add New Reward</h2>
+                <form method="POST" enctype="multipart/form-data" action="">
+                    <div class="form-group">
+                        <label for="reward_name">Reward Name</label>
+                        <div class="inputForm">
+                            <input type="text" id="reward_name" name="reward_name" class="form-control" 
+                                   placeholder="Enter reward name" required>
+                        </div>
+                    </div>
 
-    <label for="reward_image" class="custom-file-upload">Choose File</label>
-    <input type="file" id="reward_image" name="reward_image" required>
+                    <div class="form-group">
+                        <label for="reward_description">Description</label>
+                        <div class="inputForm">
+                            <textarea id="reward_description" name="reward_description" class="form-control" 
+                                      placeholder="Enter reward description" required rows="4"></textarea>
+                        </div>
+                    </div>
 
-    <button type="submit" name="add_reward">Add Reward</button>
-</form>
+                    <div class="form-group">
+                        <label for="reward_points">Volunteer Hours Required</label>
+                        <div class="inputForm">
+                            <input type="number" id="reward_points" name="reward_points" class="form-control" 
+                                   placeholder="Enter volunteer hours required" min="1" required>
+                        </div>
+                        <small class="form-text">Volunteers need this many hours to redeem this reward (certificates, badges, etc.)</small>
+                    </div>
 
+                    <div class="form-group">
+                        <label>Reward Image</label>
+                        <div class="file-upload-wrapper">
+                            <input type="file" id="reward_image" name="reward_image" class="file-upload-input" 
+                                   accept="image/*" required>
+                            <label for="reward_image" class="file-upload-label">
+                                <i class="bi bi-cloud-upload"></i>
+                                Choose an image
+                            </label>
+                            <div class="file-name"></div>
+                        </div>
+                        <small class="form-text">Upload an image for the reward (JPG, PNG, GIF)</small>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" name="add_reward" class="submit-button">
+                            <i class="bi bi-plus-circle"></i>
+                            Add Reward
+                        </button>
+                    </div>
     </form>
+            </div>
 
-    <h2>Assign Reward</h2>
+            <div class="reward-form-card">
+                <h2 class="form-title">Assign Reward</h2>
     <form method="POST">
-        <select name="reward_id">
-            <?php while ($row = $rewards->fetch_assoc()): ?>
-                <option value="<?= $row['id'] ?>"><?= $row['name'] ?> (<?= $row['points_required'] ?> pts)</option>
+                    <div class="form-group">
+                        <label for="reward_id">Select Reward</label>
+                        <div class="inputForm">
+                            <select id="reward_id" name="reward_id" class="form-control" required>
+                                <option value="">Choose a reward...</option>
+                                <?php 
+                                $rewards->data_seek(0);
+                                while ($row = $rewards->fetch_assoc()): 
+                                ?>
+                                    <option value="<?= $row['id'] ?>">
+                                        <?= htmlspecialchars($row['name']) ?> (<?= $row['points_required'] ?> hours)
+                                    </option>
             <?php endwhile; ?>
         </select>
-        <input type="email" name="member_email" placeholder="Member Email" required>
-        <button type="submit" name="assign_reward">Assign Reward</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="member_email">Volunteer Email</label>
+                        <div class="inputForm">
+                            <input type="email" id="member_email" name="member_email" class="form-control" 
+                                   placeholder="Enter volunteer's email" required>
+                        </div>
+                        <small class="form-text">Enter the email address of the volunteer you want to assign this reward to.</small>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" name="assign_reward" class="submit-button">
+                            <i class="bi bi-gift"></i>
+                            Assign Reward
+                        </button>
+                    </div>
     </form>
-    
+            </div>
+        </div>
+
+        <div class="rewards-grid">
+            <h2>Rewards Dashboard</h2>
+            <div class="rewards-container">
+                <?php
+                // Query to get all assigned rewards with their status
+                $dashboard_query = "SELECT r.*, ar.status, ar.member_email, f.member_name 
+                                  FROM rewards r 
+                                  INNER JOIN assigned_rewards ar ON r.id = ar.reward_id 
+                                  LEFT JOIN family f ON ar.member_email = f.member_email 
+                                  WHERE ar.member_email IN (
+                                      SELECT member_email 
+                                      FROM family 
+                                      WHERE managers_email = ?
+                                  )
+                                  ORDER BY ar.id DESC";
+
+                $dashboard_stmt = $conn->prepare($dashboard_query);
+                if ($dashboard_stmt) {
+                    $dashboard_stmt->bind_param("s", $manager_email);
+                    $dashboard_stmt->execute();
+                    $dashboard_result = $dashboard_stmt->get_result();
+
+                    if ($dashboard_result && $dashboard_result->num_rows > 0): 
+                        while ($row = $dashboard_result->fetch_assoc()): 
+                            $status_class = $row['status'] === 'redeemed' ? 'success' : 'warning';
+                            $status_text = ucfirst($row['status']);
+                ?>
+                            <div class="reward-card">
+                                <?php if (!empty($row['image'])): ?>
+                                    <img src="uploads/<?= htmlspecialchars($row['image']) ?>" 
+                                         alt="<?= htmlspecialchars($row['name']) ?>" 
+                                         class="reward-image">
+                                <?php endif; ?>
+                                <h3 class="reward-name"><?= htmlspecialchars($row['name']) ?></h3>
+                                <div class="reward-details">
+                                    <p>
+                                        <strong>Assigned to:</strong>
+                                        <span><?= htmlspecialchars($row['member_name'] ?? $row['member_email']) ?></span>
+                                    </p>
+                                    <p>
+                                        <strong>Points Required:</strong>
+                                        <span class="points-badge">
+                                            <?= number_format($row['points_required']) ?> points
+                                        </span>
+                                    </p>
+                                    <p>
+                                        <strong>Status:</strong>
+                                        <span class="status-badge <?= $status_class ?>">
+                                            <?= $status_text ?>
+                                        </span>
+                                    </p>
+                                    <?php if ($row['status'] === 'pending'): ?>
+                                        <form method="POST" action="redeem_reward.php">
+                                            <input type="hidden" name="reward_id" value="<?= $row['id'] ?>">
+                                            <input type="hidden" name="member_email" value="<?= htmlspecialchars($row['member_email']) ?>">
+                                            <button type="submit" class="btn-success">
+                                                <i class="bi bi-check-circle"></i>
+                                                Mark as Redeemed
+                                            </button>
+                                        </form>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                <?php 
+                        endwhile;
+                    else: 
+                ?>
+                        <div class="no-rewards">
+                            <p>No rewards have been assigned yet. Start by creating rewards like certificates, recognition badges, or achievements that volunteers can earn with their volunteer hours!</p>
+                        </div>
+                <?php 
+                    endif;
+                    $dashboard_stmt->close();
+                } else {
+                    echo "<div class='alert alert-danger'>Error preparing dashboard query: " . $conn->error . "</div>";
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+</section>
 
     <footer id="footer" class="footer dark-background">
 
@@ -305,13 +780,13 @@ h2 {
   <div class="row gy-4">
     <div class="col-lg-4 col-md-6 footer-about">
       <a href="index.html" class="d-flex align-items-center">
-        <span class="sitename">Famify</span>
+        <span class="sitename">VolunteerHub</span>
       </a>
       <div class="footer-contact pt-3">
         <p>1234 Elm Street</p>
         <p>Los Angeles, CA 90001</p>
         <p class="mt-3"><strong>Phone:</strong> <span>+1 2345 6789 01</span></p>
-        <p><strong>Email:</strong> <span>famify@info.com</span></p>
+        <p><strong>Email:</strong> <span>volunteerhub@info.com</span></p>
       </div>
     </div>
 
@@ -332,7 +807,7 @@ h2 {
       <h4>Our Services</h4>
       <ul>
         <li><i class="bi bi-chevron-right"></i> <a href="#">Keeping Your Family Organized</a></li>
-        <li><i class="bi bi-chevron-right"></i> <a href="#">How Famify Keeps Your Family on Track</a></li>
+        <li><i class="bi bi-chevron-right"></i> <a href="#">How VolunteerHub Keeps Your Organization on Track</a></li>
         <li><i class="bi bi-chevron-right"></i> <a href="#">Manage Chores and Rewards</a></li>
         <li><i class="bi bi-chevron-right"></i> <a href="#">Effortless Communication</a></li>
       </ul>
@@ -352,7 +827,7 @@ h2 {
 </div>
 
 <div class="container copyright text-center mt-4">
-  <p>© <span>Copyright</span> <strong class="px-1 sitename">Famify</strong> <span>All Rights Reserved</span></p>
+  <p>© <span>Copyright</span> <strong class="px-1 sitename">VolunteerHub</strong> <span>All Rights Reserved</span></p>
 </div>
 
 </footer>
@@ -378,7 +853,40 @@ h2 {
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
+  <script>
+    // File upload preview
+    document.getElementById('reward_image').addEventListener('change', function(e) {
+        const fileName = e.target.files[0]?.name;
+        const fileLabel = document.querySelector('.file-name');
+        if (fileName) {
+            fileLabel.textContent = fileName;
+        } else {
+            fileLabel.textContent = '';
+        }
+    });
+
+    // Add success/error message handling
+    function showAlert(message, type) {
+        const alertDiv = document.createElement('div');
+        alertDiv.className = `alert alert-${type}`;
+        alertDiv.textContent = message;
+        
+        const container = document.querySelector('.container');
+        container.insertBefore(alertDiv, container.firstChild);
+        
+        setTimeout(() => {
+            alertDiv.remove();
+        }, 5000);
+    }
+  </script>
 
 </body>
 
 </html>
+</html>
+</html>
+</html>
+
+
+
+

@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>About - Famify</title>
+  <title>About - VolunteerHub</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -22,6 +22,7 @@
   <link href="assets/css/main.css" rel="stylesheet">
 
 
+  <?php include 'includes/theme_includes.php'; ?>
 </head>
 
 <body class="about-page">
@@ -31,7 +32,7 @@
 
       <a href="index.html" class="logo d-flex align-items-center">
 
-        <h1 class="sitename">Famify</h1>
+        <h1 class="sitename">VolunteerHub</h1>
       </a>
 
       <nav id="navmenu" class="navmenu">
@@ -43,7 +44,7 @@
           <li><a href="blog.html">Blog</a></li>
           <li><a href="contact.html">Contact</a></li> 
           <li><a href="signup.php" class="signup-btn">Sign Up</a></li> 
-          <li><a href="signin1.php" class="signup-btn">Member sign  </a></li> 
+          <li><a href="signin1.php" class="signup-btn">Volunteer Login</a></li> 
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
@@ -70,37 +71,108 @@
 
   
     <section id="about" class="about section">
-
       <div class="container">
-    
         <div class="row gy-4">
           <div class="col-lg-6 position-relative align-self-start" data-aos="fade-up" data-aos-delay="100">
-            <img src="assets/img/family.jpg" class="img-fluid" alt="Why Use Famify">
-            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="glightbox pulsating-play-btn"></a>
+            <div class="about-img">
+              <img src="assets/img/family.jpg" class="img-fluid" alt="Why Use VolunteerHub">
+              <div class="about-overlay">
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="glightbox pulsating-play-btn"></a>
+              </div>
+            </div>
           </div>
           <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="200">
-            <h3>Why Should I Use Famify for My Family?</h3>
+            <h3>Why Should I Use VolunteerHub for My Organization?</h3>
             <p class="fst-italic">
-              Famify is your family’s ultimate tool for collaboration and organization.
+              VolunteerHub is your organization's ultimate tool for volunteer management and community impact.
             </p>
-            <ul>
-              <li><i class="bi bi-check2-all"></i> <span>Streamline family management with an intuitive interface and easy-to-use tools.</span></li>
-              <li><i class="bi bi-check2-all"></i> <span>Encourage teamwork by assigning and tracking household chores.</span></li>
-              <li><i class="bi bi-check2-all"></i> <span>Build stronger connections with shared goals, rewards, and accomplishments.</span></li>
-              <li><i class="bi bi-check2-all"></i> <span>Earn points for completed tasks to redeem fun family rewards and incentives.</span></li>
-              <li><i class="bi bi-check2-all"></i> <span>Visualize progress with charts and milestones that motivate everyone to participate.</span></li>
-              <li><i class="bi bi-check2-all"></i> <span>Improve communication through shared notes, reminders, and updates within the app.</span></li>
-            </ul>
+            <div class="features-list">
+              <div class="feature-item">
+                <i class="bi bi-check2-all"></i>
+                <span>Streamline volunteer management with an intuitive interface and easy-to-use tools.</span>
+              </div>
+              <div class="feature-item">
+                <i class="bi bi-check2-all"></i>
+                <span>Encourage teamwork by assigning and tracking volunteer missions.</span>
+              </div>
+              <div class="feature-item">
+                <i class="bi bi-check2-all"></i>
+                <span>Build stronger connections with shared goals, rewards, and accomplishments.</span>
+              </div>
+              <div class="feature-item">
+                <i class="bi bi-check2-all"></i>
+                <span>Track volunteer hours and earn achievements, badges, and recognition for completed missions.</span>
+              </div>
+              <div class="feature-item">
+                <i class="bi bi-check2-all"></i>
+                <span>Visualize progress with charts and milestones that motivate everyone to participate.</span>
+              </div>
+              <div class="feature-item">
+                <i class="bi bi-check2-all"></i>
+                <span>Improve communication through shared notes, reminders, and updates within the app.</span>
+              </div>
+            </div>
             <p>
-              Whether you’re managing daily tasks or planning for the future, Famify helps create a more harmonious and organized home. Let your family thrive together with Famify.  
-              Explore endless possibilities, boost productivity, and foster collaboration to make family life more enjoyable and stress-free. Start your journey today!
+              Whether you're managing volunteer missions or planning community events, VolunteerHub helps create a more organized and impactful volunteer program. Let your organization thrive with VolunteerHub.  
+              Explore endless possibilities, boost volunteer engagement, and foster collaboration to make a real difference in your community. Start your journey today!
             </p>
           </div>
         </div>
-    
       </div>
-    
-    </section><!-- /About Section -->
+    </section>
+
+    <style>
+      .about-img {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+
+      .about-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(92, 77, 60, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .features-list {
+        margin: 30px 0;
+      }
+
+      .feature-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .feature-item:hover {
+        transform: translateX(10px);
+        background: #fff;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+
+      .feature-item i {
+        color: #5c4d3c;
+        font-size: 1.5rem;
+        margin-right: 15px;
+        margin-top: 5px;
+      }
+
+      .feature-item span {
+        color: #5c4d3c;
+        font-size: 1.1rem;
+      }
+    </style>
     
     <section id="stats" class="stats section light-background">
 
@@ -111,28 +183,28 @@
           <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
               <span data-purecounter-start="0" data-purecounter-end="23200" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Good kids</p>
+              <p>Active Volunteers</p>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
               <span data-purecounter-start="0" data-purecounter-end="122521" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Familys</p>
+              <p>Organizations</p>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
               <span data-purecounter-start="0" data-purecounter-end="9011453" data-purecounter-duration="1" class="purecounter"></span>
-              <p>All points</p>
+              <p>All Volunteer Hours</p>
             </div>
           </div>
 
           <div class="col-lg-3 col-md-6">
             <div class="stats-item text-center w-100 h-100">
               <span data-purecounter-start="0" data-purecounter-end="54607" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Members+</p>
+              <p>Volunteers+</p>
             </div>
           </div>
 
@@ -199,7 +271,7 @@
 
       <div class="container section-title" data-aos="fade-up">
         <h2>Our Skills</h2>
-        <p>Discover how Famify helps bring families closer together with powerful tools and shared goals.</p>
+        <p>Discover how VolunteerHub helps bring organizations closer together with powerful tools and shared goals.</p>
       </div>
     
       <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -209,7 +281,7 @@
           <div class="col-lg-6">
     
             <div class="progress">
-              <span class="skill"><span>Happy Families</span> <i class="val">100%</i></span>
+              <span class="skill"><span>Successful Organizations</span> <i class="val">100%</i></span>
               <div class="progress-bar-wrap">
                 <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
@@ -248,7 +320,7 @@
             </div>
     
             <div class="progress">
-              <span class="skill"><span>Family Rewards</span> <i class="val">75%</i></span>
+              <span class="skill"><span>Volunteer Achievements</span> <i class="val">75%</i></span>
               <div class="progress-bar-wrap">
                 <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
@@ -266,7 +338,7 @@
 
       <div class="container section-title" data-aos="fade-up">
         <h2>Testimonials</h2>
-        <p>Hear how Famify transforms family life into something extraordinary.</p>
+        <p>Hear how VolunteerHub transforms volunteer management into something extraordinary.</p>
       </div>
     
       <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -293,13 +365,13 @@
               <div class="testimonial-item">
                 <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
                 <h3>Saul Goodman</h3>
-                <h4>Father</h4>
+                <h4>Organization Coordinator</h4>
                 <div class="stars">
                   <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                 </div>
                 <p>
                   <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Famify made it easy to keep track of everyone’s schedules. Our family has never been more organized, and I finally feel less stressed.</span>
+                  <span>VolunteerHub made it easy to keep track of everyone's schedules. Our organization has never been more organized, and I finally feel less stressed.</span>
                   <i class="bi bi-quote quote-icon-right"></i>
                 </p>
               </div>
@@ -309,13 +381,13 @@
               <div class="testimonial-item">
                 <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
                 <h3>Sara Wilsson</h3>
-                <h4>Sister</h4>
+                <h4>Volunteer</h4>
                 <div class="stars">
                   <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                 </div>
                 <p>
                   <i class="bi bi-quote quote-icon-left"></i>
-                  <span>With Famify, sharing chores became so much simpler. I even get rewards for completing my tasks—it’s fun and motivating!</span>
+                  <span>With VolunteerHub, sharing missions became so much simpler. I even get achievements for completing my tasks—it's fun and motivating!</span>
                   <i class="bi bi-quote quote-icon-right"></i>
                 </p>
               </div>
@@ -325,13 +397,13 @@
               <div class="testimonial-item">
                 <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
                 <h3>Jena Karlis</h3>
-                <h4>Mother</h4>
+                <h4>Organization Administrator</h4>
                 <div class="stars">
                   <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                 </div>
                 <p>
                   <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Planning family meals and activities has never been easier. Famify is a game-changer for every busy parent.</span>
+                  <span>Planning volunteer events and activities has never been easier. VolunteerHub is a game-changer for every busy organization coordinator.</span>
                   <i class="bi bi-quote quote-icon-right"></i>
                 </p>
               </div>
@@ -341,13 +413,13 @@
               <div class="testimonial-item">
                 <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
                 <h3>Matt Brandon</h3>
-                <h4>Brother</h4>
+                <h4>Volunteer</h4>
                 <div class="stars">
                   <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                 </div>
                 <p>
                   <i class="bi bi-quote quote-icon-left"></i>
-                  <span>I love how easy it is to keep track of my sports and schoolwork while staying connected with the family.</span>
+                  <span>I love how easy it is to keep track of my volunteer missions and activities while staying connected with the organization.</span>
                   <i class="bi bi-quote quote-icon-right"></i>
                 </p>
               </div>
@@ -357,13 +429,13 @@
               <div class="testimonial-item">
                 <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
                 <h3>John Larson</h3>
-                <h4>Grandparent</h4>
+                <h4>Senior Volunteer</h4>
                 <div class="stars">
                   <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
                 </div>
                 <p>
                   <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Even I can keep up with family events thanks to Famify. It keeps us all on the same page effortlessly.</span>
+                  <span>Even I can keep up with volunteer events thanks to VolunteerHub. It keeps us all on the same page effortlessly.</span>
                   <i class="bi bi-quote quote-icon-right"></i>
                 </p>
               </div>
@@ -402,13 +474,13 @@
         <div class="row gy-4">
           <div class="col-lg-4 col-md-6 footer-about">
             <a href="index.html" class="d-flex align-items-center">
-              <span class="sitename">Famify</span>
+              <span class="sitename">VolunteerHub</span>
             </a>
             <div class="footer-contact pt-3">
               <p>1234 Elm Street</p>
               <p>Los Angeles, CA 90001</p>
               <p class="mt-3"><strong>Phone:</strong> <span>+1 2345 6789 01</span></p>
-              <p><strong>Email:</strong> <span>famify@info.com</span></p>
+              <p><strong>Email:</strong> <span>volunteerhub@info.com</span></p>
             </div>
           </div>
     
@@ -429,7 +501,7 @@
             <h4>Our Services</h4>
             <ul>
               <li><i class="bi bi-chevron-right"></i> <a href="#">Keeping Your Family Organized</a></li>
-              <li><i class="bi bi-chevron-right"></i> <a href="#">How Famify Keeps Your Family on Track</a></li>
+              <li><i class="bi bi-chevron-right"></i> <a href="#">How VolunteerHub Keeps Your Organization on Track</a></li>
               <li><i class="bi bi-chevron-right"></i> <a href="#">Manage Chores and Rewards</a></li>
               <li><i class="bi bi-chevron-right"></i> <a href="#">Effortless Communication</a></li>
             </ul>
@@ -449,7 +521,7 @@
       </div>
     
       <div class="container copyright text-center mt-4">
-        <p>© <span>Copyright</span> <strong class="px-1 sitename">Famify</strong> <span>All Rights Reserved</span></p>
+        <p>© <span>Copyright</span> <strong class="px-1 sitename">VolunteerHub</strong> <span>All Rights Reserved</span></p>
       </div>
     
     </footer>
@@ -476,4 +548,7 @@
 
 </body>
 
+</html>
+</html>
+</html>
 </html>

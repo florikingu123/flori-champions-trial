@@ -1,4 +1,4 @@
-:root {
+ fix:root {
   --background-color: #F9F9F9; /* Soft White */
   --default-color: #4A4A4A; /* Neutral Gray */
   --heading-color: #6C757D; /* Cool Gray */
@@ -30,7 +30,7 @@
 }
 :root {
   --default-font: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-  --heading-font: "Raleway", sans-serif;
+  --heading-font: "Raleway", sans-serif;  
   --nav-font: "Poppins", sans-serif;
 }
 

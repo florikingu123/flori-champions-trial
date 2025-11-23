@@ -11,17 +11,17 @@ if (!$conn) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST["email"]);
     $password = trim($_POST["password"]);
-    $family_manager_email = trim($_POST["family_manager_email"]);
+    $organization_admin_email = trim($_POST["family_manager_email"]);
 
-    if (empty($email) || empty($password) || empty($family_manager_email)) {
+    if (empty($email) || empty($password) || empty($organization_admin_email)) {
         echo "<script>alert('All fields are required!');</script>";
     } else {
-        // Check if the family manager exists in the users table
+        // Check if the organization admin exists in the users table
         $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
         if (!$stmt) {
-            die("SQL Error (Family Manager Check): " . $conn->error);
+            die("SQL Error (Organization Admin Check): " . $conn->error);
         }
-        $stmt->bind_param("s", $family_manager_email);
+        $stmt->bind_param("s", $organization_admin_email);
         $stmt->execute();
         $stmt->store_result();
         
@@ -29,12 +29,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->bind_result($manager_id);
             $stmt->fetch();
             
-            // Check user details in the family table
+            // Check user details in the organization table
             $stmt_family = $conn->prepare("SELECT id, member_pass FROM family WHERE member_email = ? AND managers_email = ?");
             if (!$stmt_family) {
-                die("SQL Error (Family Table Check): " . $conn->error);
+                die("SQL Error (Organization Table Check): " . $conn->error);
             }
-            $stmt_family->bind_param("ss", $email, $family_manager_email);
+            $stmt_family->bind_param("ss", $email, $organization_admin_email);
             $stmt_family->execute();
             $stmt_family->store_result();
             
@@ -45,19 +45,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if (password_verify($password, $hashed_password)) {
                     $_SESSION["user_id"] = $user_id;
                     $_SESSION["email"] = $email;
-                    $_SESSION["manager_email"] = $family_manager_email;
+                    $_SESSION["manager_email"] = $organization_admin_email;
                     
-                    header("Location: member.php");
+                    // Check if there's a redirect URL
+                    if (isset($_SESSION['redirect_after_login'])) {
+                        $redirect = $_SESSION['redirect_after_login'];
+                        unset($_SESSION['redirect_after_login']);
+                        header("Location: " . $redirect);
+                    } else {
+                        header("Location: member.php");
+                    }
                     exit();
                 } else {
                     echo "<script>alert('Invalid email or password!');</script>";
                 }
             } else {
-                echo "<script>alert('No family member record found!');</script>";
+                echo "<script>alert('No volunteer record found!');</script>";
             }
             $stmt_family->close();
         } else {
-            echo "<script>alert('Family manager not found!');</script>";
+            echo "<script>alert('Organization administrator not found!');</script>";
         }
         $stmt->close();
     }
@@ -69,275 +76,158 @@ $conn->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In as a Member</title>
-  <style>
-    /* Center the form on the screen */
-    body, html {
-      height: 100%;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f0f0f0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In as Volunteer - VolunteerHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-    .form-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-    }
+        .form-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
 
-    .form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      background: linear-gradient(45deg, #6C757D, #4A4A4A);
-      padding: 30px;
-      width: 450px;
-      border-radius: 20px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      transition: background 0.6s ease-in-out;
-    }
+        .form {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
 
-    .form:hover {
-      background: linear-gradient(45deg, #4A4A4A, #6C757D);
-    }
+        .form:hover {
+            transform: translateY(-5px);
+        }
 
-    .span {
-      font-size: 14px;
-      margin-left: 5px;
-      color: white;
-      font-weight: 500;
-      cursor: pointer;
-      text-decoration: none;
-      transition: color 0.3s ease-in-out;
-    }
+        .form-title {
+            color: #333;
+            font-size: 28px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-    .span:hover {
-      color: #cccccc;
-    }
+        .input-group {
+            margin-bottom: 25px;
+        }
 
-    .p {
-      text-align: center;
-      color: white;
-      font-size: 14px;
-      margin: 5px 0;
-    }
+        .input-group label {
+            display: block;
+            color: #555;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
 
-    .button-submit {
-      padding: 15px 30px;
-      text-align: center;
-      background: transparent;
-      transition: ease-out 0.5s;
-      border: 2px solid;
-      border-radius: 10em;
-      box-shadow: inset 0 0 0 0 #6C757D;
-      margin: 20px 0 10px 0;
-      color: white;
-      font-size: 15px;
-      font-weight: 500;
-      height: 50px;
-      width: 100%;
-      cursor: pointer;
-    }
+        .inputForm {
+            position: relative;
+            border: 2px solid #e1e1e1;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
 
-    .button-submit:hover {
-      color: white;
-      box-shadow: inset 0 -100px 0 0 #4A4A4A;
-    }
-    body, html {
-      height: 100%;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f0f0f0;
-    }
+        .inputForm:focus-within {
+            border-color: #FFD3B5;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(255, 211, 181, 0.1);
+        }
 
-    .form-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-    }
+        .input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: transparent;
+            font-size: 15px;
+            color: #333;
+        }
 
-    .form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      background: linear-gradient(45deg, #6C757D, #4A4A4A);
-      padding: 30px;
-      width: 450px;
-      border-radius: 20px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      transition: background 0.6s ease-in-out;
-    }
+        .input:focus {
+            outline: none;
+        }
 
-    .form:hover {
-      background: linear-gradient(45deg, #4A4A4A, #6C757D);
-    }
+        .button-submit {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            color: #333;
+            background: #FFD3B5;
+            margin-top: 10px;
+        }
 
-    ::placeholder {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      color: #6C757D;
-    }
+        .button-submit:hover {
+            background: #FFAAA5;
+            transform: translateY(-2px);
+        }
 
-    .form button {
-      align-self: flex-end;
-      background: #6C757D;
-      color: white;
-      border: 2px solid #4A4A4A;
-    }
+        .p {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+        }
 
-    .form button:hover {
-      background: #4A4A4A;
-      color: #fff;
-      border: 2px solid #6C757D;
-    }
-
-    .form button:active {
-      transform: scale(0.9);
-    }
-
-    .flex-column > label {
-      color: white;
-      font-weight: 600;
-    }
-
-    .inputForm {
-      border: 1.5px solid #6C757D;
-      border-radius: 10em;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      padding-left: 10px;
-      transition: border 0.3s ease-in-out;
-      background-color: white;
-    }
-
-    .input {
-      margin-left: 10px;
-      border-radius: 10rem;
-      border: none;
-      width: 100%;
-      height: 100%;
-    }
-
-    .input:focus {
-      outline: none;
-    }
-
-    .inputForm:focus-within {
-      border: 1.5px solid #4A4A4A;
-    }
-
-    .flex-row {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 10px;
-      justify-content: space-between;
-    }
-
-    .flex-row > div > label {
-      font-size: 14px;
-      color: white;
-      font-weight: 400;
-    }
-
-    .span {
-      font-size: 14px;
-      margin-left: 5px;
-      color: white;
-      font-weight: 500;
-      cursor: pointer;
-      text-decoration : none;
-    }
-
-    .button-submit {
-      position: relative;
-      display: inline-block;
-      padding: 15px 30px;
-      text-align: center;
-      letter-spacing: 1px;
-      text-decoration: none;
-      background: transparent;
-      transition: ease-out 0.5s;
-      border: 2px solid;
-      border-radius: 10em;
-      box-shadow: inset 0 0 0 0 #6C757D;
-      margin: 20px 0 10px 0;
-      color: white;
-      font-size: 15px;
-      font-weight: 500;
-      height: 50px;
-      width: 100%;
-      cursor: pointer;
-    }
-
-    .button-submit:hover {
-      color: white;
-      box-shadow: inset 0 -100px 0 0 #4A4A4A;
-    }
-
-    .button-submit:active {
-      transform: scale(0.9);
-    }
-
-    .p {
-      text-align: center;
-      color: white;
-      font-size: 14px;
-      margin: 5px 0;
-    }
-
-    .form-title {
-      text-align: center;
-      color: white;
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
+        @media (max-width: 480px) {
+            .form {
+                padding: 30px 20px;
+            }
+        }
     </style>
+  <?php include 'includes/theme_includes.php'; ?>
 </head>
 <body>
-  <div class="form-container">
-    <form class="form" action="" method="POST">
-      <div class="form-title">Sign In as a Member</div>
+    <div class="form-container">
+        <form class="form" action="" method="POST">
+            <div class="form-title">Sign In as Volunteer</div>
 
-      <div class="flex-column">
-        <label>Email</label>
-      </div>
-      <div class="inputForm">
-        <input placeholder="Enter your Email" class="input" type="email" name="email" required />
-      </div>
+            <div class="input-group">
+                <label>Email Address</label>
+                <div class="inputForm">
+                    <input placeholder="Enter your Email" class="input" type="email" name="email" required />
+                </div>
+            </div>
 
-      <div class="flex-column">
-        <label>Password</label>
-      </div>
-      <div class="inputForm">
-        <input placeholder="Enter your Password" class="input" type="password" name="password" required />
-      </div>
-      
-      <div class="flex-column">
-        <label>Family Manager Email</label>
-      </div>
-      <div class="inputForm">
-        <input placeholder="Enter Family Manager's Email" class="input" type="email" name="family_manager_email" required />
-      </div>
+            <div class="input-group">
+                <label>Password</label>
+                <div class="inputForm">
+                    <input placeholder="Enter your Password" class="input" type="password" name="password" required />
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <label>Organization Administrator Email</label>
+                <div class="inputForm">
+                    <input placeholder="Enter Organization Admin's Email" class="input" type="email" name="family_manager_email" required />
+                </div>
+            </div>
 
-      <button class="button-submit" type="submit">Sign In</button>
+            <button class="button-submit" type="submit">Sign In</button>
 
-      <p class="p">Don't have an account? Tell your family member to make you one.</p>
-    </form>
-  </div>
+            <p class="p">Don't have an account? Contact your organization administrator to add you.</p>
+            
+            <div style="text-align: center; margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+                <p style="margin: 0 0 10px 0; color: #666; font-size: 14px;">Need to find an organization?</p>
+                <p style="margin: 0 0 10px 0; color: #999; font-size: 12px;">Browse organizations and request an account - organization admins will create your account</p>
+                <a href="browse_directory.php" style="display: inline-block; padding: 12px 30px; background: #FFD3B5; color: #333; text-decoration: none; font-weight: 500; font-size: 14px; border-radius: 10px; transition: all 0.3s ease;">Browse Directory →</a>
+            </div>
+        </form>
+    </div>
 </body>
 </html>

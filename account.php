@@ -88,216 +88,212 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Account</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-          body, html {
-      height: 100%;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f0f0f0;
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-    .form-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-    }
+        .form-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
 
-    .form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      background: linear-gradient(45deg, #6C757D, #4A4A4A);
-      padding: 30px;
-      width: 450px;
-      border-radius: 20px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      transition: background 0.6s ease-in-out;
-    }
+        .form {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
 
-    .form:hover {
-      background: linear-gradient(45deg, #4A4A4A, #6C757D);
-    }
+        .form:hover {
+            transform: translateY(-5px);
+        }
 
-    ::placeholder {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      color: #6C757D;
-    }
+        .form-title {
+            color: #333;
+            font-size: 28px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-    .form button {
-      align-self: center;
-      background: #6C757D;
-      color: white;
-      border: 2px solid #4A4A4A;
-    }
+        .message {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+        }
 
-    .form button:hover {
-      background: #4A4A4A;
-      color: #fff;
-      border: 2px solid #6C757D;
-    }
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
 
-    .form button:active {
-      transform: scale(0.9);
-    }
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
 
-    .flex-column > label {
-      color: white;
-      font-weight: 600;
-    }
+        .input-group {
+            margin-bottom: 25px;
+        }
 
-    .inputForm {
-      border: 1.5px solid #6C757D;
-      border-radius: 10em;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      padding-left: 10px;
-      transition: border 0.3s ease-in-out;
-      background-color: white;
-    }
+        .input-group label {
+            display: block;
+            color: #555;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
 
-    .input {
-      margin-left: 10px;
-      border-radius: 10rem;
-      border: none;
-      width: 100%;
-      height: 100%;
-    }
+        .inputForm {
+            position: relative;
+            border: 2px solid #e1e1e1;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
 
-    .input:focus {
-      outline: none;
-    }
+        .inputForm:focus-within {
+            border-color: #FFD3B5;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(255, 211, 181, 0.1);
+        }
 
-    .inputForm:focus-within {
-      border: 1.5px solid #4A4A4A;
-    }
+        .input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: transparent;
+            font-size: 15px;
+            color: #333;
+        }
 
-    .flex-row {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 10px;
-      justify-content: space-between;
-    }
+        .input:focus {
+            outline: none;
+        }
 
-    .flex-row > div > label {
-      font-size: 14px;
-      color: white;
-      font-weight: 400;
-    }
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+            user-select: none;
+        }
 
-    .span {
-      font-size: 14px;
-      margin-left: 5px;
-      color: white;
-      font-weight: 500;
-      cursor: pointer;
-      text-decoration : none;
-    }
+        .button-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
 
-    .button-submit {
-      position: relative;
-      display: inline-block;
-      padding: 15px 10px 15px 10px;
-      text-align: center;
-      letter-spacing: 1px;
-      text-decoration: none;
-      background: transparent;
-      transition: ease-out 0.5s;
-      border: 2px solid;
-      border-radius: 10em;
-      box-shadow: inset 0 0 0 0 #6C757D;
-      margin: 20px 0 0 0;
-      color: white;
-      font-size: 15px;
-      font-weight: 500;
-      height: 20px 20px 20px;
-      width: 85%;
-      cursor: pointer;
-    }
+        .button-submit {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            color: #333;
+        }
 
-    .button-submit:hover {
-      color: white;
-      box-shadow: inset 0 -100px 0 0 #4A4A4A;
-    }
+        .button-submit.primary {
+            background: #FFD3B5;
+        }
 
-    .button-submit:active {
-      transform: scale(0.9);
-    }
+        .button-submit.primary:hover {
+            background: #FFAAA5;
+            transform: translateY(-2px);
+        }
 
-    .p {
-      text-align: center;
-      color: white;
-      font-size: 14px;
-      margin: 10px 0 0 0;
-    }
+        .button-submit.secondary {
+            background: #f8f9fa;
+            border: 2px solid #e1e1e1;
+        }
 
-    .form-title {
-      text-align: center;
-      color: white;
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
+        .button-submit.secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 480px) {
+            .form {
+                padding: 30px 20px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
     </style>
+  <?php include 'includes/theme_includes.php'; ?>
 </head>
 <body>
-<div class="form-container">
-    <form class="form" action="" method="POST">
-        <div class="form-title">Edit Your Account</div>
+    <div class="form-container">
+        <form class="form" action="" method="POST">
+            <div class="form-title">Edit Your Account</div>
 
-        <?php if ($message): ?>
-            <div class="message <?= htmlspecialchars($message_type) ?>">
-                <?= htmlspecialchars($message) ?>
+            <?php if ($message): ?>
+                <div class="message <?= htmlspecialchars($message_type) ?>">
+                    <?= htmlspecialchars($message) ?>
+                </div>
+            <?php endif; ?>
+
+            <div class="input-group">
+                <label>Email Address</label>
+                <div class="inputForm">
+                    <input class="input" type="email" name="email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" required />
+                </div>
             </div>
-        <?php endif; ?>
 
-        <div class="flex-column">
-            <label>Email</label>
-        </div>
-        <div class="inputForm">
-            <input class="input" type="email" name="email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" required />
-        </div>
+            <div class="input-group">
+                <label>Phone Number</label>
+                <div class="inputForm">
+                    <input class="input" type="text" name="number" value="<?= htmlspecialchars($user['number'] ?? '') ?>" required />
+                </div>
+            </div>
 
-        <div class="flex-column">
-            <label>Phone Number</label>
-        </div>
-        <div class="inputForm">
-            <input class="input" type="text" name="number" value="<?= htmlspecialchars($user['number'] ?? '') ?>" required />
-        </div>
+            <div class="input-group">
+                <label>New Password (Optional)</label>
+                <div class="inputForm">
+                    <input id="password" class="input" type="password" name="password" placeholder="Enter new password" />
+                    <span class="toggle-password" onclick="togglePassword()">👁️</span>
+                </div>
+            </div>
 
-        <div class="flex-column">
-            <label>New Password (Optional)</label>
-        </div>
-        <div class="inputForm password-container">
-            <input id="password" class="input" type="password" name="password" placeholder="Enter new password" />
-            <span class="toggle-password" onclick="togglePassword()">👁️</span>
-        </div>
-        <button class="button-submit" type="submit" name="update">Update Account</button>
+            <div class="button-group">
+                <button class="button-submit primary" type="submit" name="update">Update Account</button>
+                <button class="button-submit secondary" type="button" onclick="window.location.href='famify.php'">Back to Home</button>
+            </div>
+        </form>
+    </div>
 
-<button class="button-submit" type="button" onclick="window.location.href='famify.php'">Back to Home</button>
-
-
-
-    </form>
-</div>
-
-<script>
-function togglePassword() {
-    var passwordInput = document.getElementById("password");
-    passwordInput.type = passwordInput.type === "password" ? "text" : "password";
-}
-
-document.getElementById("goFamify").addEventListener("click", function() {
-    window.location.href = "famify.php";
-});
-</script>
-
+    <script>
+        function togglePassword() {
+            var passwordInput = document.getElementById("password");
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+        }
+    </script>
 </body>
 </html>
+
+
+

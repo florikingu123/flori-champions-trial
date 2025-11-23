@@ -58,271 +58,155 @@ $conn->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign In to Your Account</title>
-  
-  <style>
-    /* Center the form on the screen */
-    body, html {
-      height: 100%;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f0f0f0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In to Your Account</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
 
-    .form-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-    }
+        .form-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
 
-    .form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      background: linear-gradient(45deg, #6C757D, #4A4A4A);
-      padding: 30px;
-      width: 450px;
-      border-radius: 20px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      transition: background 0.6s ease-in-out;
-    }
+        .form {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
 
-    .form:hover {
-      background: linear-gradient(45deg, #4A4A4A, #6C757D);
-    }
+        .form:hover {
+            transform: translateY(-5px);
+        }
 
-    .span {
-      font-size: 14px;
-      margin-left: 5px;
-      color: white;
-      font-weight: 500;
-      cursor: pointer;
-      text-decoration: none;
-      transition: color 0.3s ease-in-out;
-    }
+        .form-title {
+            color: #333;
+            font-size: 28px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-    .span:hover {
-      color: #cccccc;
-    }
+        .input-group {
+            margin-bottom: 25px;
+        }
 
-    .p {
-      text-align: center;
-      color: white;
-      font-size: 14px;
-      margin: 5px 0;
-    }
+        .input-group label {
+            display: block;
+            color: #555;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
 
-    .button-submit {
-      padding: 15px 30px;
-      text-align: center;
-      background: transparent;
-      transition: ease-out 0.5s;
-      border: 2px solid;
-      border-radius: 10em;
-      box-shadow: inset 0 0 0 0 #6C757D;
-      margin: 20px 0 10px 0;
-      color: white;
-      font-size: 15px;
-      font-weight: 500;
-      height: 50px;
-      width: 100%;
-      cursor: pointer;
-    }
+        .inputForm {
+            position: relative;
+            border: 2px solid #e1e1e1;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
 
-    .button-submit:hover {
-      color: white;
-      box-shadow: inset 0 -100px 0 0 #4A4A4A;
-    }
-    body, html {
-      height: 100%;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f0f0f0;
-    }
+        .inputForm:focus-within {
+            border-color: #FFD3B5;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(255, 211, 181, 0.1);
+        }
 
-    .form-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-    }
+        .input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: transparent;
+            font-size: 15px;
+            color: #333;
+        }
 
-    .form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      background: linear-gradient(45deg, #6C757D, #4A4A4A);
-      padding: 30px;
-      width: 450px;
-      border-radius: 20px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      transition: background 0.6s ease-in-out;
-    }
+        .input:focus {
+            outline: none;
+        }
 
-    .form:hover {
-      background: linear-gradient(45deg, #4A4A4A, #6C757D);
-    }
+        .button-submit {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            color: #333;
+            background: #FFD3B5;
+            margin-top: 10px;
+        }
 
-    ::placeholder {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      color: #6C757D;
-    }
+        .button-submit:hover {
+            background: #FFAAA5;
+            transform: translateY(-2px);
+        }
 
-    .form button {
-      align-self: flex-end;
-      background: #6C757D;
-      color: white;
-      border: 2px solid #4A4A4A;
-    }
+        .p {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+        }
 
-    .form button:hover {
-      background: #4A4A4A;
-      color: #fff;
-      border: 2px solid #6C757D;
-    }
+        .span {
+            color: #FFD3B5;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
 
-    .form button:active {
-      transform: scale(0.9);
-    }
+        .span:hover {
+            color: #FFAAA5;
+        }
 
-    .flex-column > label {
-      color: white;
-      font-weight: 600;
-    }
-
-    .inputForm {
-      border: 1.5px solid #6C757D;
-      border-radius: 10em;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      padding-left: 10px;
-      transition: border 0.3s ease-in-out;
-      background-color: white;
-    }
-
-    .input {
-      margin-left: 10px;
-      border-radius: 10rem;
-      border: none;
-      width: 100%;
-      height: 100%;
-    }
-
-    .input:focus {
-      outline: none;
-    }
-
-    .inputForm:focus-within {
-      border: 1.5px solid #4A4A4A;
-    }
-
-    .flex-row {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 10px;
-      justify-content: space-between;
-    }
-
-    .flex-row > div > label {
-      font-size: 14px;
-      color: white;
-      font-weight: 400;
-    }
-
-    .span {
-      font-size: 14px;
-      margin-left: 5px;
-      color: white;
-      font-weight: 500;
-      cursor: pointer;
-      text-decoration : none;
-    }
-
-    .button-submit {
-      position: relative;
-      display: inline-block;
-      padding: 15px 30px;
-      text-align: center;
-      letter-spacing: 1px;
-      text-decoration: none;
-      background: transparent;
-      transition: ease-out 0.5s;
-      border: 2px solid;
-      border-radius: 10em;
-      box-shadow: inset 0 0 0 0 #6C757D;
-      margin: 20px 0 10px 0;
-      color: white;
-      font-size: 15px;
-      font-weight: 500;
-      height: 50px;
-      width: 100%;
-      cursor: pointer;
-    }
-
-    .button-submit:hover {
-      color: white;
-      box-shadow: inset 0 -100px 0 0 #4A4A4A;
-    }
-
-    .button-submit:active {
-      transform: scale(0.9);
-    }
-
-    .p {
-      text-align: center;
-      color: white;
-      font-size: 14px;
-      margin: 5px 0;
-    }
-
-    .form-title {
-      text-align: center;
-      color: white;
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-  </style>
+        @media (max-width: 480px) {
+            .form {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="form-container">
+        <form class="form" action="" method="POST">
+            <div class="form-title">Sign In to Your Account</div>
 
-  <div class="form-container">
-    <form class="form T55" action="" method="POST">
-      <div class="form-title T56">Sign In to Your Account</div>
+            <div class="input-group">
+                <label>Email Address</label>
+                <div class="inputForm">
+                    <input placeholder="Enter your Email" class="input" type="email" name="email" required />
+                </div>
+            </div>
 
-      <div class="flex-column T57">
-        <label class="T58">Email</label>
-      </div>
-      <div class="inputForm T59">
-        <input placeholder="Enter your Email" class="input" type="email" name="email" required />
-      </div>
+            <div class="input-group">
+                <label>Password</label>
+                <div class="inputForm">
+                    <input placeholder="Enter your Password" class="input" type="password" name="password" required />
+                </div>
+            </div>
 
-      <div class="flex-column T60">
-        <label class="T61">Password</label>
-      </div>
-      <div class="inputForm T62">
-        <input placeholder="Enter your Password" class="input" type="password" name="password" required />
-      </div>
+            <button class="button-submit" type="submit">Sign In</button>
 
-      <button class="button-submit T66" type="submit">Sign In</button>
-
-      <p class="p T67">Don't have an account? <a href="signup.php" class="span T68">Sign Up</a></p>
-    </form>
-  </div>
-
+            <p class="p">Don't have an account? <a href="signup.php" class="span">Sign Up</a></p>
+        </form>
+    </div>
 </body>
 </html>

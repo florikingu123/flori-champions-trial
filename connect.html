@@ -1,13 +1,12 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Family manager - Famify</title>
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <title>Connect - VolunteerHub</title>
+  <meta name="description" content="Learn how to find volunteers and organize events with VolunteerHub">
+  <meta name="keywords" content="volunteers, events, organization, community">
   <link href="assets/img/favicon.png" rel="icon">
   <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
   <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -19,28 +18,207 @@
   <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
   <link href="assets/css/main.css" rel="stylesheet">
+  <style>
+    .section {
+      padding: 60px 0;
+    }
+    .feature-card {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      height: 100%;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+    }
+    .feature-icon {
+      font-size: 3rem;
+      color: #FFD3B5;
+      margin-bottom: 20px;
+    }
+    .feature-list {
+      list-style: none;
+      padding: 0;
+    }
+    .feature-list li {
+      margin-bottom: 15px;
+      padding-left: 30px;
+      position: relative;
+    }
+    .feature-list li:before {
+      content: "✓";
+      color: #FFD3B5;
+      position: absolute;
+      left: 0;
+      font-weight: bold;
+    }
+    .cta-section {
+      background: linear-gradient(135deg, #FFD3B5, #FFAAA5);
+      padding: 60px 0;
+      color: white;
+      text-align: center;
+    }
+    .cta-btn {
+      background: white;
+      color: #FF6B6B;
+      padding: 15px 30px;
+      border-radius: 25px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.4);
+      color: #FF6B6B;
+    }
 
+    /* Chatbot Styles */
+    .chat-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .chat-box {
+      background: #f8f9fa;
+      border-radius: 15px;
+      padding: 20px;
+      height: 400px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      border: 2px solid #e9ecef;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+    }
+
+    .input-field {
+      flex: 1;
+      padding: 15px;
+      border: 2px solid #e1e1e1;
+      border-radius: 12px;
+      font-size: 15px;
+      font-family: 'Poppins', sans-serif;
+      transition: all 0.3s ease;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: #FFD3B5;
+      box-shadow: 0 0 0 4px rgba(255, 211, 181, 0.1);
+    }
+
+    .button {
+      padding: 15px 30px;
+      background: #FFD3B5;
+      color: #333;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .button:hover {
+      background: #FFAAA5;
+      transform: translateY(-2px);
+    }
+
+    .button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .message {
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 12px;
+      max-width: 80%;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message-you {
+      background-color: #FFD3B5;
+      color: white;
+      margin-left: auto;
+    }
+
+    .message-gpt {
+      background-color: #ffffff;
+      border: 1px solid #eee;
+      margin-right: auto;
+      color: #333;
+    }
+
+    .error-message {
+      background: rgba(239, 68, 68, 0.1);
+      color: #ef4444;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      display: none;
+    }
+
+    .error-message.show {
+      display: block;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+  <?php include 'includes/theme_includes.php'; ?>
 </head>
 
 <body class="index-page">
-
 
 <header id="header" class="header d-flex align-items-center fixed-top">
   <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
     <a href="index.html" class="logo d-flex align-items-center">
-      <h1 class="sitename">Famify</h1>
+      <h1 class="sitename">VolunteerHub</h1>
     </a>
 
     <nav id="navmenu" class="navmenu">
       <ul>
-      <li><a href="famify.php">Family center</a></li>      
-      <li><a href="addfam.php" id="openModal">Add a Family Member</a></li>
+        <li><a href="famify.php">Organization Center</a></li>
+        <li><a href="addfam.php">Recruit Volunteer</a></li>
         <li><a href="account.php">Your Account</a></li>
-        <li><a href="connect.html">Connect</a></li>
-        <li><a href="points_shop.php">Rewards</a></li>
-        
-        
+        <li><a href="connect.html" class="active">Connect</a></li>
+        <li><a href="points_shop.php">Achievements</a></li>
+        <li><a href="family_calendar.php">Events Calendar</a></li>
+        <li><a href="donate.php">Donate</a></li>
         <li><a href="logout.php">Logout</a></li>
       </ul>
       <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -49,11 +227,10 @@
   </div>
 </header>
 
-
 <div class="page-title dark-background">
     <div class="container position-relative">
       <h1>Connect</h1>
-      <p>A way to stay connected with your kids</p>
+      <p>Find volunteers and organize successful community events</p>
       <nav class="breadcrumbs">
         <ol>
           <li><a href="index.html">Home</a></li>
@@ -69,24 +246,24 @@
   
       <div class="row gy-4">
         <div class="col-lg-6 position-relative align-self-start" data-aos="fade-up" data-aos-delay="100">
-          <img src="assets/img/family.jpg" class="img-fluid" alt="Stay Connected">
+          <img src="assets/img/family.jpg" class="img-fluid rounded-4 shadow" alt="Volunteer Organization">
 
         </div>
         <div class="col-lg-6 content" data-aos="fade-up" data-aos-delay="200">
-          <h3>Stay Connected with Your Kids</h3>
+          <h3>Connect with Volunteers & Organize Events</h3>
           <p class="fst-italic">
-            Connect is designed to help parents stay engaged and involved in their children's lives.
+            Connect helps organizations find dedicated volunteers and plan successful community events.
           </p>
           <ul>
-            <li><i class="bi bi-check2-all"></i> <span>Keep up with the latest news and updates about your kids' activities.</span></li>
-            <li><i class="bi bi-check2-all"></i> <span>Discover the perfect gifts for them based on their interests and milestones.</span></li>
-            <li><i class="bi bi-check2-all"></i> <span>Gain insights on parenting with expert advice and recommended books.</span></li>
-            <li><i class="bi bi-check2-all"></i> <span>Create stronger bonds through meaningful conversations and shared moments.</span></li>
-            <li><i class="bi bi-check2-all"></i> <span>Ensure a positive upbringing with structured guidance and encouragement.</span></li>
+            <li><i class="bi bi-check"></i> <span>Browse our volunteer directory to find skilled volunteers for your organization</span></li>
+            <li><i class="bi bi-check"></i> <span>Learn best practices for organizing community events and volunteer activities</span></li>
+            <li><i class="bi bi-check"></i> <span>Get expert guidance on volunteer recruitment and engagement strategies</span></li>
+            <li><i class="bi bi-check"></i> <span>Access tools and resources to coordinate volunteers effectively</span></li>
+            <li><i class="bi bi-check"></i> <span>Build stronger community connections through organized volunteer programs</span></li>
           </ul>
           <p>
-            Whether you’re looking for the best way to support your children or simply want to stay involved in their lives, Connect provides you with the right tools.  
-            Stay informed, share special moments, and build a stronger family connection with Connect. Start today and make every moment count!
+            Whether you're looking to recruit volunteers for your organization or planning a community event, Connect provides you with the right tools and guidance.  
+            Find dedicated volunteers, organize successful events, and build a stronger community network. Start today and make a positive impact!
           </p>
         </div>
       </div>
@@ -97,7 +274,7 @@
   
   <section id="pricing" class="pricing section">
     <div class="container section-title" data-aos="fade-up">
-      <h2>See the categories</h2>
+      <h2>How to Get Started</h2>
    
     </div><!-- End Section Title -->
   
@@ -106,59 +283,88 @@
   
         <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
           <div class="pricing-item">
-            <h3>News</h3>
-
+            <h3>Find Volunteers</h3>
             <ul>
-                <li><i class="bi bi-check"></i> <span>Stay updated on the latest trends your kids love</span></li>
-                <li><i class="bi bi-check"></i> <span>Follow new games, movies, and shows they enjoy</span></li>
-                <li><i class="bi bi-check"></i> <span>Get insights into their favorite hobbies and activities</span></li>
-                <li><i class="bi bi-check"></i> <span>Discover upcoming events and pop culture highlights</span></li>
-                <li><i class="bi bi-check"></i> <span>Engage in conversations about their interests</span></li>
-                
+              <li><i class="bi bi-check"></i> <span>Browse the volunteer directory</span></li>
+              <li><i class="bi bi-check"></i> <span>Search by skills and interests</span></li>
+              <li><i class="bi bi-check"></i> <span>Contact volunteers directly</span></li>
+              <li><i class="bi bi-check"></i> <span>View volunteer profiles and availability</span></li>
             </ul>
-            <div class="text-center"><a href="https://www.bbc.co.uk/newsround" class="buy-btn">See them</a></div>
+            <div class="text-center"><a href="browse_directory.php" class="buy-btn">Browse Directory</a></div>
           </div>
         </div><!-- End Pricing Item -->
   
         <div class="col-lg-4 featured" data-aos="zoom-in" data-aos-delay="200">
           <div class="pricing-item">
-            <h3>Gift</h3>
-
+            <h3>Organize Events</h3>
             <ul>
-                <li><i class="bi bi-check"></i> <span>Find the perfect gifts based on your kids' interests</span></li>
-                <li><i class="bi bi-check"></i> <span>Personalized gift recommendations for every occasion</span></li>
-                <li><i class="bi bi-check"></i> <span>Discover trending toys, books, and games they’ll love</span></li>
-                <li><i class="bi bi-check"></i> <span>Exclusive deals and gift ideas for special moments</span></li>
-                <li><i class="bi bi-check"></i> <span>Make celebrations more meaningful with thoughtful gifts</span></li>
-                
+              <li><i class="bi bi-check"></i> <span>Plan community events step-by-step</span></li>
+              <li><i class="bi bi-check"></i> <span>Coordinate volunteer schedules</span></li>
+              <li><i class="bi bi-check"></i> <span>Manage event logistics efficiently</span></li>
+              <li><i class="bi bi-check"></i> <span>Track event success and impact</span></li>
             </ul>
-            <div class="text-center"><a href="portfolio.html" class="buy-btn">See them</a></div>
+            <div class="text-center"><a href="family_calendar.php" class="buy-btn">View Calendar</a></div>
           </div>
         </div><!-- End Pricing Item -->
   
         <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
           <div class="pricing-item">
-            <h3>Advice</h3>
-   
+            <h3>AI Event Assistant</h3>
             <ul>
-                <li><i class="bi bi-check"></i> <span>Expert parenting advice for every stage of growth</span></li>
-                <li><i class="bi bi-check"></i> <span>Access to top-rated parenting books and resources</span></li>
-                <li><i class="bi bi-check"></i> <span>Guidance on building healthy habits and routines</span></li>
-                <li><i class="bi bi-check"></i> <span>Tips on fostering strong communication with your kids</span></li>
-                <li><i class="bi bi-check"></i> <span>Exclusive insights from child development specialists</span></li>
-                
+              <li><i class="bi bi-check"></i> <span>Get AI-powered event planning help</span></li>
+              <li><i class="bi bi-check"></i> <span>Receive volunteer recruitment tips</span></li>
+              <li><i class="bi bi-check"></i> <span>Access organization best practices</span></li>
+              <li><i class="bi bi-check"></i> <span>Get personalized event guidance</span></li>
             </ul>
-            <div class="text-center">
-                <a href="Parenting_siblings.pdf" download class="buy-btn">See Them</a>
-            </div>
-            
+            <div class="text-center"><a href="#chatbot-section" class="buy-btn">Try AI Assistant</a></div>
           </div>
         </div><!-- End Pricing Item -->
   
       </div>
     </div>
   </section><!-- End Pricing Section -->
+
+  <!-- Chatbot Section -->
+  <section id="chatbot-section" class="section" style="background: #f8f9fa;">
+    <div class="container">
+      <div class="section-title">
+        <h2>AI Event Organization Assistant</h2>
+        <p>Ask our AI assistant for help organizing events, finding volunteers, or managing your organization</p>
+      </div>
+
+      <div class="chat-container">
+        <div id="chat-box" class="chat-box">
+          <div class="message message-gpt">
+            <div style="color: #666; font-style: italic;">
+              Hello! I'm your VolunteerHub AI assistant. I can help you organize events, find volunteers, plan activities, and manage your organization. Ask me anything!
+            </div>
+          </div>
+        </div>
+
+        <form id="chat-form" class="input-area">
+          <input
+            type="text"
+            id="user-input"
+            class="input-field"
+            placeholder="Ask about organizing events, finding volunteers, or managing your organization..."
+            required
+          />
+          <button type="submit" class="button" id="send-btn">
+            <i class="bi bi-send"></i> Send
+          </button>
+        </form>
+        <div id="chat-error" class="error-message"></div>
+      </div>
+    </div>
+  </section>
     
+    <section class="cta-section">
+      <div class="container">
+        <h2>Ready to Build Your Volunteer Network?</h2>
+        <p>Start using VolunteerHub's Connect features today and organize successful community events with dedicated volunteers.</p>
+        <a href="browse_directory.php" class="cta-btn">Browse Volunteers Now</a>
+      </div>
+    </section>
 
     <footer id="footer" class="footer dark-background">
 
@@ -185,13 +391,13 @@
   <div class="row gy-4">
     <div class="col-lg-4 col-md-6 footer-about">
       <a href="index.html" class="d-flex align-items-center">
-        <span class="sitename">Famify</span>
+        <span class="sitename">VolunteerHub</span>
       </a>
       <div class="footer-contact pt-3">
         <p>1234 Elm Street</p>
         <p>Los Angeles, CA 90001</p>
         <p class="mt-3"><strong>Phone:</strong> <span>+1 2345 6789 01</span></p>
-        <p><strong>Email:</strong> <span>famify@info.com</span></p>
+        <p><strong>Email:</strong> <span>volunteerhub@info.com</span></p>
       </div>
     </div>
 
@@ -211,9 +417,9 @@
     <div class="col-lg-2 col-md-3 footer-links">
       <h4>Our Services</h4>
       <ul>
-        <li><i class="bi bi-chevron-right"></i> <a href="#">Keeping Your Family Organized</a></li>
-        <li><i class="bi bi-chevron-right"></i> <a href="#">How Famify Keeps Your Family on Track</a></li>
-        <li><i class="bi bi-chevron-right"></i> <a href="#">Manage Chores and Rewards</a></li>
+        <li><i class="bi bi-chevron-right"></i> <a href="#">Managing Your Volunteer Organization</a></li>
+        <li><i class="bi bi-chevron-right"></i> <a href="#">How VolunteerHub Keeps Your Organization on Track</a></li>
+        <li><i class="bi bi-chevron-right"></i> <a href="#">Manage Missions and Achievements</a></li>
         <li><i class="bi bi-chevron-right"></i> <a href="#">Effortless Communication</a></li>
       </ul>
     </div>
@@ -232,11 +438,10 @@
 </div>
 
 <div class="container copyright text-center mt-4">
-  <p>© <span>Copyright</span> <strong class="px-1 sitename">Famify</strong> <span>All Rights Reserved</span></p>
+  <p>© <span>Copyright</span> <strong class="px-1 sitename">VolunteerHub</strong> <span>All Rights Reserved</span></p>
 </div>
 
 </footer>
-
 
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -258,7 +463,244 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
+  <!-- Chatbot Script -->
+  <script>
+    // Gemini API Configuration
+    const GEMINI_KEY = 'AIzaSyAVD5YiIAilUzdm8x_CGKCMYI1Vmamd6TI';
+    const GEMINI_MODEL = 'gemini-2.5-flash';
+    const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_KEY}`;
 
+    // DOM Elements
+    const form = document.getElementById('chat-form');
+    const input = document.getElementById('user-input');
+    const chatBox = document.getElementById('chat-box');
+    const sendBtn = document.getElementById('send-btn');
+    const errorDiv = document.getElementById('chat-error');
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initChatbot);
+    } else {
+      initChatbot();
+    }
+
+    function initChatbot() {
+      console.log('Initializing VolunteerHub AI chatbot...');
+
+      // Validate API key
+      if (!GEMINI_KEY || GEMINI_KEY === 'YOUR_API_KEY_HERE') {
+        showError('API key is missing. Please configure your Gemini API key.');
+        return;
+      }
+
+      // Event handlers
+      form.addEventListener('submit', handleSubmit);
+      input.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          handleSubmit(e);
+        }
+      });
+
+      console.log('Chatbot initialized successfully');
+    }
+
+    async function handleSubmit(e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      const message = input.value.trim();
+      if (!message) {
+        console.log('Empty message, not sending');
+        return;
+      }
+
+      console.log('Sending message to Gemini API...');
+
+      // Clear input and hide errors
+      input.value = '';
+      hideError();
+
+      // Add user message to chat
+      addMessage(message, 'user');
+
+      // Update button state
+      sendBtn.disabled = true;
+      sendBtn.innerHTML = '<span class="loading-spinner"></span> Sending...';
+
+      // Add loading message
+      const loadingMessage = addMessage('Typing...', 'bot', true);
+
+      try {
+        // Make API request to Google Gemini
+        const response = await fetch(GEMINI_API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            contents: [{
+              parts: [{
+                text: `You are a helpful assistant for VolunteerHub, a volunteer organization platform. Help users organize events, find volunteers, and manage their organizations. Be specific and practical. User question: ${message}`
+              }]
+            }],
+            generationConfig: {
+              temperature: 0.7,
+              topK: 40,
+              topP: 0.95,
+              maxOutputTokens: 2000
+            }
+          })
+        });
+
+        console.log('Response status:', response.status);
+
+        // Check for HTTP errors
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({ 
+            error: { message: `HTTP ${response.status}: ${response.statusText}` } 
+          }));
+          console.error('API error response:', errorData);
+          throw new Error(errorData.error?.message || `API error: ${response.status} ${response.statusText}`);
+        }
+
+        // Parse response
+        let data;
+        try {
+          const responseText = await response.text();
+          console.log('Raw API response received');
+          data = JSON.parse(responseText);
+          console.log('Parsed API response data');
+        } catch (parseError) {
+          console.error('Failed to parse JSON:', parseError);
+          throw new Error('Invalid JSON response from API');
+        }
+
+        // Extract AI message from response
+        let aiMessage = '';
+
+        // Check for API errors
+        if (data.error) {
+          throw new Error(data.error.message || data.error || 'API returned an error');
+        }
+
+        // Validate response structure
+        if (!data.candidates || !Array.isArray(data.candidates) || data.candidates.length === 0) {
+          console.error('Candidates array not found. Response keys:', Object.keys(data));
+          throw new Error('Candidates array not found in response');
+        }
+
+        const candidate = data.candidates[0];
+
+        // Handle different finish reasons
+        if (candidate.finishReason === 'MAX_TOKENS') {
+          if (candidate.content && candidate.content.parts && Array.isArray(candidate.content.parts) && candidate.content.parts.length > 0) {
+            const part = candidate.content.parts[0];
+            if (part && part.text) {
+              aiMessage = part.text + '\n\n[Note: Response was cut off due to length limit]';
+              console.warn('Response was cut off but partial text available');
+            } else {
+              throw new Error('Response was cut off during thinking phase. Please try a shorter question.');
+            }
+          } else {
+            throw new Error('Response was cut off before any text could be generated. Please try a shorter question.');
+          }
+        } else if (candidate.finishReason === 'SAFETY') {
+          throw new Error('Response was blocked by safety filters. Please try rephrasing your question.');
+        }
+
+        // Extract text from parts array
+        if (!aiMessage) {
+          if (!candidate.content) {
+            throw new Error('Content property not found in candidate');
+          }
+
+          if (!candidate.content.parts || !Array.isArray(candidate.content.parts) || candidate.content.parts.length === 0) {
+            console.error('Content structure:', candidate.content);
+            throw new Error('Parts array not found in content. Finish reason: ' + (candidate.finishReason || 'unknown'));
+          }
+
+          const part = candidate.content.parts[0];
+          if (!part) {
+            throw new Error('First part is missing from parts array');
+          }
+
+          if (part.text) {
+            aiMessage = part.text;
+          } else if (typeof part === 'string') {
+            aiMessage = part;
+          } else {
+            console.error('Part structure:', part);
+            throw new Error('Text property not found in part');
+          }
+        }
+
+        // Validate we have a message
+        if (!aiMessage || aiMessage.trim() === '') {
+          throw new Error('Empty response from API. Response may have been cut off.');
+        }
+
+        console.log('AI message extracted successfully');
+        
+        // Remove loading message and add AI response
+        loadingMessage.remove();
+        addMessage(aiMessage, 'bot');
+
+      } catch (error) {
+        console.error('Error:', error);
+        
+        // Remove loading message
+        loadingMessage.remove();
+        
+        // Show error to user
+        const errorMsg = error.message || 'Failed to get response from AI';
+        showError(errorMsg);
+        addMessage('Sorry, I encountered an error: ' + errorMsg, 'bot');
+      } finally {
+        // Reset button state
+        sendBtn.disabled = false;
+        sendBtn.innerHTML = '<i class="bi bi-send"></i> Send';
+      }
+    }
+
+    function addMessage(text, type, isLoading = false) {
+      if (!text || !text.trim()) return null;
+
+      const messageElement = document.createElement('div');
+      messageElement.classList.add('message', type === 'user' ? 'message-you' : 'message-gpt');
+      
+      // Use textNode for security (prevents XSS)
+      const textNode = document.createTextNode(text);
+      messageElement.appendChild(textNode);
+      
+      // Add loading class if needed
+      if (isLoading) {
+        messageElement.style.opacity = '0.7';
+        messageElement.style.fontStyle = 'italic';
+      }
+
+      chatBox.appendChild(messageElement);
+      
+      // Auto-scroll to bottom
+      setTimeout(() => {
+        chatBox.scrollTop = chatBox.scrollHeight;
+      }, 10);
+
+      console.log('Message added to chat:', text.substring(0, 50) + '...', type);
+      return messageElement;
+    }
+
+    function showError(message) {
+      errorDiv.textContent = message;
+      errorDiv.classList.add('show');
+      console.error('Error displayed:', message);
+    }
+
+    function hideError() {
+      errorDiv.classList.remove('show');
+      errorDiv.textContent = '';
+    }
+  </script>
 </body>
 
 </html>

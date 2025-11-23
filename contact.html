@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Contact - Famify</title>
+  <title>Contact - VolunteerHub</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -15,7 +15,7 @@
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -27,168 +27,338 @@
   <!-- Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
 
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      padding: 20px;
+    }
 
+    .contact-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .contact-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .contact-header h1 {
+      color: #333;
+      font-size: 36px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .contact-header p {
+      color: #666;
+      font-size: 16px;
+    }
+
+    .contact-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 50px;
+    }
+
+    @media (max-width: 768px) {
+      .contact-content {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .info-section {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-item {
+      margin-bottom: 30px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .info-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .info-item i {
+      font-size: 24px;
+      color: #FFD3B5;
+      margin-bottom: 15px;
+    }
+
+    .info-item h3 {
+      color: #333;
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .info-item p {
+      color: #666;
+      margin: 0;
+    }
+
+    .form-box {
+      max-width: 500px;
+      background: #f1f7fe;
+      overflow: hidden;
+      border-radius: 16px;
+      color: #010101;
+      margin: 0 auto;
+    }
+
+    .form {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 32px 24px 24px;
+      gap: 16px;
+      text-align: center;
+    }
+
+    .title {
+      font-weight: bold;
+      font-size: 1.6rem;
+      color: #333;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: #666;
+    }
+
+    .form-container {
+      overflow: hidden;
+      border-radius: 8px;
+      background-color: #fff;
+      margin: 0;
+      width: 100%;
+    }
+
+    .input {
+      background: none;
+      border: 0;
+      outline: 0;
+      height: 40px;
+      width: 100%;
+      border-bottom: 1px solid #eee;
+      font-size: .9rem;
+      padding: 8px 15px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .input:last-child {
+      border-bottom: 0;
+    }
+
+    .form button {
+      background-color: #FFD3B5;
+      color: #333;
+      border: 0;
+      border-radius: 24px;
+      padding: 10px 16px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color .3s ease;
+    }
+
+    .form button:hover {
+      background-color: #FFAAA5;
+    }
+
+    .images-section {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 50px;
+    }
+
+    @media (max-width: 768px) {
+      .images-section {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .volunteer-image {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .volunteer-image:hover {
+      transform: scale(1.05);
+    }
+
+    #messageAlert {
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #submitBtn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  </style>
+
+  <?php include 'includes/theme_includes.php'; ?>
 </head>
 
-<body class="contact-page">
-
+<body>
   <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
 
       <a href="index.html" class="logo d-flex align-items-center">
-        <!-- Uncomment the line below if you also wish to use an image logo -->
-        <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1 class="sitename">Famify</h1>
+        <h1 class="sitename">VolunteerHub</h1>
       </a>
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="index.html" >Home</a></li>
-          <li><a href="about.html" class="active">About</a></li>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
           <li><a href="services.html">Services</a></li>
           <li><a href="team.html">Team</a></li>
           <li><a href="blog.html">Blog</a></li>
-          <li><a href="contact.html">Contact</a></li> 
+          <li><a href="contact.html" class="active">Contact</a></li> 
           <li><a href="signup.php" class="signup-btn">Sign Up</a></li> 
-          <li><a href="signin1.php" class="signup-btn">Member sign  </a></li> 
+          <li><a href="signin1.php" class="signup-btn">Member sign</a></li> 
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
-      
-
     </div>
   </header>
 
-  <main class="main">
-
-    <!-- Page Title -->
-    <div class="page-title dark-background">
-      <div class="container position-relative">
-        <h1>Contact</h1>
+  <main class="main" style="padding-top: 100px;">
+    <div class="contact-container">
+      <div class="contact-header">
+        <h1>Contact Us</h1>
         <p>Have questions or need assistance? We're here to help! Reach out to us, and our team will get back to you as soon as possible.</p>
-        <nav class="breadcrumbs">
-          <ol>
-            <li><a href="index.html">Home</a></li>
-            <li class="current">Contact</li>
-          </ol>
-        </nav>
       </div>
-    </div><!-- End Page Title -->
 
-    <!-- Contact Section -->
-    <section id="contact" class="contact section">
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="row gy-4">
-          <div class="col-lg-6 ">
-            <div class="row gy-4">
-
-              <div class="col-lg-12">
-                <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="200">
-                  <i class="bi bi-geo-alt"></i>
-                  <h3>Address</h3>
-                  <p>A108 Adam Street, New York, NY 535022</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="col-md-6">
-                <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="300">
-                  <i class="bi bi-telephone"></i>
-                  <h3>Call Us</h3>
-                  <p>+1 5589 55488 55</p>
-                </div>
-              </div><!-- End Info Item -->
-
-              <div class="col-md-6">
-                <div class="info-item d-flex flex-column justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="400">
-                  <i class="bi bi-envelope"></i>
-                  <h3>Email Us</h3>
-                  <p>info@famify.com</p>
-                </div>
-              </div><!-- End Info Item -->
-
-            </div>
+      <div class="contact-content">
+        <div class="info-section">
+          <div class="info-item">
+            <i class="bi bi-geo-alt"></i>
+            <h3>Address</h3>
+            <p>A108 Adam Street, New York, NY 535022</p>
           </div>
 
-          <div class="col-lg-6">
-            <form action="contact.php" method="post" class="php-email-form" data-aos="fade-up" data-aos-delay="500">
-                <div class="row gy-4">
-                    <div class="col-md-6">
-                        <input type="text" name="name" class="form-control" placeholder="Your Name" required="">
-                    </div>
-                    <div class="col-md-6">
-                        <input type="email" class="form-control" name="email" placeholder="Your Email" required="">
-                    </div>
-                    <div class="col-md-12">
-                        <input type="text" class="form-control" name="subject" placeholder="Subject" required="">
-                    </div>
-                    <div class="col-md-12">
-                        <textarea class="form-control" name="message" rows="4" placeholder="Message" required=""></textarea>
-                    </div>
-                    <div class="col-md-12 text-center">
-                        <div class="loading">Loading</div>
-                        <div class="error-message"></div>
-                        <div class="sent-message">Your message has been sent. Thank you!</div>
-                        <button type="submit">Send Message</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        
+          <div class="info-item">
+            <i class="bi bi-telephone"></i>
+            <h3>Call Us</h3>
+            <p>+1 5589 55488 55</p>
+          </div>
 
+          <div class="info-item">
+            <i class="bi bi-envelope"></i>
+            <h3>Email Us</h3>
+            <p>info@volunteerhub.com</p>
+          </div>
         </div>
 
+        <div class="form-section">
+          <form action="contact.php" method="post" class="form" id="contactForm">
+            <div class="form-title">Send Us a Message</div>
+
+            <div id="messageAlert" style="display: none; padding: 15px; margin-bottom: 20px; border-radius: 10px; text-align: center; font-weight: 500; font-size: 14px;"></div>
+
+            <div class="input-group">
+              <label>Your Name</label>
+              <div class="inputForm">
+                <input type="text" name="name" class="input" placeholder="Enter your name" required>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Your Email</label>
+              <div class="inputForm">
+                <input type="email" name="email" class="input" placeholder="Enter your email" required>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Subject</label>
+              <div class="inputForm">
+                <input type="text" name="subject" class="input" placeholder="Enter subject" required>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Message</label>
+              <div class="inputForm">
+                <textarea name="message" class="textarea" placeholder="Enter your message" required></textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="button-submit" id="submitBtn">Send Message</button>
+          </form>
+        </div>
       </div>
 
-      <div class="mt-5" data-aos="fade-up" data-aos-delay="200">
-        <iframe style="border:0; width: 100%; height: 370px;" src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d48389.78314118045!2d-74.006138!3d40.710059!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a22a3bda30d%3A0xb89d1fe6bc499443!2sDowntown%20Conference%20Center!5e0!3m2!1sen!2sus!4v1676961268712!5m2!1sen!2sus" frameborder="0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div><!-- End Google Maps -->
-
-    </section><!-- /Contact Section -->
-
+      <div class="images-section">
+        <img src="voulenteers/ocg-saving-the-ocean-psRG_u3DLps-unsplash.jpg" alt="Volunteer Work" class="volunteer-image">
+        <img src="voulenteers/steve-jewett-dxKQfMaZDVM-unsplash.jpg" alt="Community Service" class="volunteer-image">
+        <img src="voulenteers/remi-walle-UOwvwZ9Dy6w-unsplash.jpg" alt="Volunteer Impact" class="volunteer-image">
+      </div>
+    </div>
   </main>
 
   <footer id="footer" class="footer dark-background">
-
     <div class="footer-newsletter">
       <div class="container">
         <div class="row justify-content-center text-center">
           <div class="col-lg-6">
             <h4>Join Our Newsletter</h4>
             <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
-            <form action="newsletter.php" method="post" class="php-email-form">
-              <div class="newsletter-form">
-                <input type="email" name="email" required placeholder="Enter your email">
-                <input type="submit" value="Subscribe">
-              </div>
-              <div class="loading">Loading</div>
-              <div class="sent-message" style="display:none;">Your subscription request has been sent. Thank you!</div>
-            </form>
           </div>
         </div>
       </div>
     </div>
-  
+
     <div class="container footer-top">
       <div class="row gy-4">
         <div class="col-lg-4 col-md-6 footer-about">
           <a href="index.html" class="d-flex align-items-center">
-            <span class="sitename">Famify</span>
+            <span class="sitename">VolunteerHub</span>
           </a>
           <div class="footer-contact pt-3">
             <p>1234 Elm Street</p>
             <p>Los Angeles, CA 90001</p>
             <p class="mt-3"><strong>Phone:</strong> <span>+1 2345 6789 01</span></p>
-            <p><strong>Email:</strong> <span>famify@info.com</span></p>
+            <p><strong>Email:</strong> <span>volunteerhub@info.com</span></p>
           </div>
         </div>
-  
+
         <div class="col-lg-2 col-md-3 footer-links">
           <h4>Useful Links</h4>
           <ul>
             <li><i class="bi bi-chevron-right"></i> <a href="index.html">Home</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="about.html" class="active">About</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="about.html">About</a></li>
             <li><i class="bi bi-chevron-right"></i> <a href="services.html">Services</a></li>
             <li><i class="bi bi-chevron-right"></i> <a href="portfolio.html">Portfolio</a></li>
             <li><i class="bi bi-chevron-right"></i> <a href="team.html">Team</a></li>
@@ -196,17 +366,17 @@
             <li><i class="bi bi-chevron-right"></i> <a href="contact.html">Contact</a></li>
           </ul>
         </div>
-  
+
         <div class="col-lg-2 col-md-3 footer-links">
           <h4>Our Services</h4>
           <ul>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Keeping Your Family Organized</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">How Famify Keeps Your Family on Track</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Manage Chores and Rewards</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Managing Your Volunteer Organization</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">How VolunteerHub Keeps Your Organization on Track</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Manage Missions and Achievements</a></li>
             <li><i class="bi bi-chevron-right"></i> <a href="#">Effortless Communication</a></li>
           </ul>
         </div>
-  
+
         <div class="col-lg-4 col-md-12">
           <h4>Follow Us</h4>
           <div class="social-links d-flex">
@@ -216,37 +386,702 @@
             <a href=""><i class="bi bi-linkedin"></i></a>
           </div>
         </div>
-  
       </div>
     </div>
-  
+
     <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">Famify</strong> <span>All Rights Reserved</span></p>
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">VolunteerHub</strong> <span>All Rights Reserved</span></p>
     </div>
-  
   </footer>
-  
 
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <script>
+    // Handle URL parameters for success/error messages
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const messageAlert = document.getElementById('messageAlert');
+      
+      if (urlParams.get('success') === '1') {
+        messageAlert.style.display = 'block';
+        messageAlert.style.background = '#d4edda';
+        messageAlert.style.color = '#155724';
+        messageAlert.style.border = '1px solid #c3e6cb';
+        messageAlert.textContent = '✓ Thank you for your message! We will get back to you soon.';
+        // Remove success parameter from URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        // Scroll to message
+        messageAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else if (urlParams.get('error')) {
+        messageAlert.style.display = 'block';
+        messageAlert.style.background = '#f8d7da';
+        messageAlert.style.color = '#721c24';
+        messageAlert.style.border = '1px solid #f5c6cb';
+        
+        const error = urlParams.get('error');
+        if (error === 'missing_fields') {
+          messageAlert.textContent = '✗ Please fill in all required fields.';
+        } else if (error === 'invalid_email') {
+          messageAlert.textContent = '✗ Please enter a valid email address.';
+        } else if (error === 'db_error') {
+          messageAlert.textContent = '✗ There was an error sending your message. Please try again.';
+        } else {
+          messageAlert.textContent = '✗ An error occurred. Please try again.';
+        }
+        // Remove error parameter from URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        // Scroll to message
+        messageAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
 
-  <!-- Preloader -->
-  <div id="preloader"></div>
+    // Handle form submission
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', function(e) {
+        const submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending...';
+        }
+        // Form will submit normally to contact.php
+        // The PHP script will redirect back with success/error parameter
+      });
+    }
+  </script>
 
-  <!-- Vendor JS Files -->
   <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="assets/vendor/php-email-form/validate.js"></script>
   <script src="assets/vendor/aos/aos.js"></script>
   <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-  <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
   <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
-  <script src="assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
-  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-
-  <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
-
 </body>
+</html>
 
+          <li><a href="signin1.php" class="signup-btn">Member sign</a></li> 
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main" style="padding-top: 100px;">
+    <div class="contact-container">
+      <div class="contact-header">
+        <h1>Contact Us</h1>
+        <p>Have questions or need assistance? We're here to help! Reach out to us, and our team will get back to you as soon as possible.</p>
+      </div>
+
+      <div class="contact-content">
+        <div class="info-section">
+          <div class="info-item">
+            <i class="bi bi-geo-alt"></i>
+            <h3>Address</h3>
+            <p>A108 Adam Street, New York, NY 535022</p>
+          </div>
+
+          <div class="info-item">
+            <i class="bi bi-telephone"></i>
+            <h3>Call Us</h3>
+            <p>+1 5589 55488 55</p>
+          </div>
+
+          <div class="info-item">
+            <i class="bi bi-envelope"></i>
+            <h3>Email Us</h3>
+            <p>info@volunteerhub.com</p>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <form action="contact.php" method="post" class="form" id="contactForm">
+            <div class="form-title">Send Us a Message</div>
+
+            <div id="messageAlert" style="display: none; padding: 15px; margin-bottom: 20px; border-radius: 10px; text-align: center; font-weight: 500; font-size: 14px;"></div>
+
+            <div class="input-group">
+              <label>Your Name</label>
+              <div class="inputForm">
+                <input type="text" name="name" class="input" placeholder="Enter your name" required>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Your Email</label>
+              <div class="inputForm">
+                <input type="email" name="email" class="input" placeholder="Enter your email" required>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Subject</label>
+              <div class="inputForm">
+                <input type="text" name="subject" class="input" placeholder="Enter subject" required>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Message</label>
+              <div class="inputForm">
+                <textarea name="message" class="textarea" placeholder="Enter your message" required></textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="button-submit" id="submitBtn">Send Message</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="images-section">
+        <img src="voulenteers/ocg-saving-the-ocean-psRG_u3DLps-unsplash.jpg" alt="Volunteer Work" class="volunteer-image">
+        <img src="voulenteers/steve-jewett-dxKQfMaZDVM-unsplash.jpg" alt="Community Service" class="volunteer-image">
+        <img src="voulenteers/remi-walle-UOwvwZ9Dy6w-unsplash.jpg" alt="Volunteer Impact" class="volunteer-image">
+      </div>
+    </div>
+  </main>
+
+  <footer id="footer" class="footer dark-background">
+    <div class="footer-newsletter">
+      <div class="container">
+        <div class="row justify-content-center text-center">
+          <div class="col-lg-6">
+            <h4>Join Our Newsletter</h4>
+            <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="index.html" class="d-flex align-items-center">
+            <span class="sitename">VolunteerHub</span>
+          </a>
+          <div class="footer-contact pt-3">
+            <p>1234 Elm Street</p>
+            <p>Los Angeles, CA 90001</p>
+            <p class="mt-3"><strong>Phone:</strong> <span>+1 2345 6789 01</span></p>
+            <p><strong>Email:</strong> <span>volunteerhub@info.com</span></p>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="index.html">Home</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="about.html">About</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="services.html">Services</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="portfolio.html">Portfolio</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="team.html">Team</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="blog.html">Blog</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Managing Your Volunteer Organization</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">How VolunteerHub Keeps Your Organization on Track</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Manage Missions and Achievements</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Effortless Communication</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-12">
+          <h4>Follow Us</h4>
+          <div class="social-links d-flex">
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">VolunteerHub</strong> <span>All Rights Reserved</span></p>
+    </div>
+  </footer>
+
+  <script>
+    // Handle URL parameters for success/error messages
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const messageAlert = document.getElementById('messageAlert');
+      
+      if (urlParams.get('success') === '1') {
+        messageAlert.style.display = 'block';
+        messageAlert.style.background = '#d4edda';
+        messageAlert.style.color = '#155724';
+        messageAlert.style.border = '1px solid #c3e6cb';
+        messageAlert.textContent = '✓ Thank you for your message! We will get back to you soon.';
+        // Remove success parameter from URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        // Scroll to message
+        messageAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else if (urlParams.get('error')) {
+        messageAlert.style.display = 'block';
+        messageAlert.style.background = '#f8d7da';
+        messageAlert.style.color = '#721c24';
+        messageAlert.style.border = '1px solid #f5c6cb';
+        
+        const error = urlParams.get('error');
+        if (error === 'missing_fields') {
+          messageAlert.textContent = '✗ Please fill in all required fields.';
+        } else if (error === 'invalid_email') {
+          messageAlert.textContent = '✗ Please enter a valid email address.';
+        } else if (error === 'db_error') {
+          messageAlert.textContent = '✗ There was an error sending your message. Please try again.';
+        } else {
+          messageAlert.textContent = '✗ An error occurred. Please try again.';
+        }
+        // Remove error parameter from URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        // Scroll to message
+        messageAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+
+    // Handle form submission
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', function(e) {
+        const submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending...';
+        }
+        // Form will submit normally to contact.php
+        // The PHP script will redirect back with success/error parameter
+      });
+    }
+  </script>
+
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
+
+          <li><a href="signin1.php" class="signup-btn">Member sign</a></li> 
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main" style="padding-top: 100px;">
+    <div class="contact-container">
+      <div class="contact-header">
+        <h1>Contact Us</h1>
+        <p>Have questions or need assistance? We're here to help! Reach out to us, and our team will get back to you as soon as possible.</p>
+      </div>
+
+      <div class="contact-content">
+        <div class="info-section">
+          <div class="info-item">
+            <i class="bi bi-geo-alt"></i>
+            <h3>Address</h3>
+            <p>A108 Adam Street, New York, NY 535022</p>
+          </div>
+
+          <div class="info-item">
+            <i class="bi bi-telephone"></i>
+            <h3>Call Us</h3>
+            <p>+1 5589 55488 55</p>
+          </div>
+
+          <div class="info-item">
+            <i class="bi bi-envelope"></i>
+            <h3>Email Us</h3>
+            <p>info@volunteerhub.com</p>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <form action="contact.php" method="post" class="form" id="contactForm">
+            <div class="form-title">Send Us a Message</div>
+
+            <div id="messageAlert" style="display: none; padding: 15px; margin-bottom: 20px; border-radius: 10px; text-align: center; font-weight: 500; font-size: 14px;"></div>
+
+            <div class="input-group">
+              <label>Your Name</label>
+              <div class="inputForm">
+                <input type="text" name="name" class="input" placeholder="Enter your name" required>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Your Email</label>
+              <div class="inputForm">
+                <input type="email" name="email" class="input" placeholder="Enter your email" required>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Subject</label>
+              <div class="inputForm">
+                <input type="text" name="subject" class="input" placeholder="Enter subject" required>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Message</label>
+              <div class="inputForm">
+                <textarea name="message" class="textarea" placeholder="Enter your message" required></textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="button-submit" id="submitBtn">Send Message</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="images-section">
+        <img src="voulenteers/ocg-saving-the-ocean-psRG_u3DLps-unsplash.jpg" alt="Volunteer Work" class="volunteer-image">
+        <img src="voulenteers/steve-jewett-dxKQfMaZDVM-unsplash.jpg" alt="Community Service" class="volunteer-image">
+        <img src="voulenteers/remi-walle-UOwvwZ9Dy6w-unsplash.jpg" alt="Volunteer Impact" class="volunteer-image">
+      </div>
+    </div>
+  </main>
+
+  <footer id="footer" class="footer dark-background">
+    <div class="footer-newsletter">
+      <div class="container">
+        <div class="row justify-content-center text-center">
+          <div class="col-lg-6">
+            <h4>Join Our Newsletter</h4>
+            <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="index.html" class="d-flex align-items-center">
+            <span class="sitename">VolunteerHub</span>
+          </a>
+          <div class="footer-contact pt-3">
+            <p>1234 Elm Street</p>
+            <p>Los Angeles, CA 90001</p>
+            <p class="mt-3"><strong>Phone:</strong> <span>+1 2345 6789 01</span></p>
+            <p><strong>Email:</strong> <span>volunteerhub@info.com</span></p>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="index.html">Home</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="about.html">About</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="services.html">Services</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="portfolio.html">Portfolio</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="team.html">Team</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="blog.html">Blog</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Managing Your Volunteer Organization</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">How VolunteerHub Keeps Your Organization on Track</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Manage Missions and Achievements</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Effortless Communication</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-12">
+          <h4>Follow Us</h4>
+          <div class="social-links d-flex">
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">VolunteerHub</strong> <span>All Rights Reserved</span></p>
+    </div>
+  </footer>
+
+  <script>
+    // Handle URL parameters for success/error messages
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const messageAlert = document.getElementById('messageAlert');
+      
+      if (urlParams.get('success') === '1') {
+        messageAlert.style.display = 'block';
+        messageAlert.style.background = '#d4edda';
+        messageAlert.style.color = '#155724';
+        messageAlert.style.border = '1px solid #c3e6cb';
+        messageAlert.textContent = '✓ Thank you for your message! We will get back to you soon.';
+        // Remove success parameter from URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        // Scroll to message
+        messageAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else if (urlParams.get('error')) {
+        messageAlert.style.display = 'block';
+        messageAlert.style.background = '#f8d7da';
+        messageAlert.style.color = '#721c24';
+        messageAlert.style.border = '1px solid #f5c6cb';
+        
+        const error = urlParams.get('error');
+        if (error === 'missing_fields') {
+          messageAlert.textContent = '✗ Please fill in all required fields.';
+        } else if (error === 'invalid_email') {
+          messageAlert.textContent = '✗ Please enter a valid email address.';
+        } else if (error === 'db_error') {
+          messageAlert.textContent = '✗ There was an error sending your message. Please try again.';
+        } else {
+          messageAlert.textContent = '✗ An error occurred. Please try again.';
+        }
+        // Remove error parameter from URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        // Scroll to message
+        messageAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+
+    // Handle form submission
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', function(e) {
+        const submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending...';
+        }
+        // Form will submit normally to contact.php
+        // The PHP script will redirect back with success/error parameter
+      });
+    }
+  </script>
+
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
+
+          <li><a href="signin1.php" class="signup-btn">Member sign</a></li> 
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main" style="padding-top: 100px;">
+    <div class="contact-container">
+      <div class="contact-header">
+        <h1>Contact Us</h1>
+        <p>Have questions or need assistance? We're here to help! Reach out to us, and our team will get back to you as soon as possible.</p>
+      </div>
+
+      <div class="contact-content">
+        <div class="info-section">
+          <div class="info-item">
+            <i class="bi bi-geo-alt"></i>
+            <h3>Address</h3>
+            <p>A108 Adam Street, New York, NY 535022</p>
+          </div>
+
+          <div class="info-item">
+            <i class="bi bi-telephone"></i>
+            <h3>Call Us</h3>
+            <p>+1 5589 55488 55</p>
+          </div>
+
+          <div class="info-item">
+            <i class="bi bi-envelope"></i>
+            <h3>Email Us</h3>
+            <p>info@volunteerhub.com</p>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <form action="contact.php" method="post" class="form" id="contactForm">
+            <div class="form-title">Send Us a Message</div>
+
+            <div id="messageAlert" style="display: none; padding: 15px; margin-bottom: 20px; border-radius: 10px; text-align: center; font-weight: 500; font-size: 14px;"></div>
+
+            <div class="input-group">
+              <label>Your Name</label>
+              <div class="inputForm">
+                <input type="text" name="name" class="input" placeholder="Enter your name" required>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Your Email</label>
+              <div class="inputForm">
+                <input type="email" name="email" class="input" placeholder="Enter your email" required>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Subject</label>
+              <div class="inputForm">
+                <input type="text" name="subject" class="input" placeholder="Enter subject" required>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label>Message</label>
+              <div class="inputForm">
+                <textarea name="message" class="textarea" placeholder="Enter your message" required></textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="button-submit" id="submitBtn">Send Message</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="images-section">
+        <img src="voulenteers/ocg-saving-the-ocean-psRG_u3DLps-unsplash.jpg" alt="Volunteer Work" class="volunteer-image">
+        <img src="voulenteers/steve-jewett-dxKQfMaZDVM-unsplash.jpg" alt="Community Service" class="volunteer-image">
+        <img src="voulenteers/remi-walle-UOwvwZ9Dy6w-unsplash.jpg" alt="Volunteer Impact" class="volunteer-image">
+      </div>
+    </div>
+  </main>
+
+  <footer id="footer" class="footer dark-background">
+    <div class="footer-newsletter">
+      <div class="container">
+        <div class="row justify-content-center text-center">
+          <div class="col-lg-6">
+            <h4>Join Our Newsletter</h4>
+            <p>Subscribe to our newsletter and receive the latest news about our products and services!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-4 col-md-6 footer-about">
+          <a href="index.html" class="d-flex align-items-center">
+            <span class="sitename">VolunteerHub</span>
+          </a>
+          <div class="footer-contact pt-3">
+            <p>1234 Elm Street</p>
+            <p>Los Angeles, CA 90001</p>
+            <p class="mt-3"><strong>Phone:</strong> <span>+1 2345 6789 01</span></p>
+            <p><strong>Email:</strong> <span>volunteerhub@info.com</span></p>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Useful Links</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="index.html">Home</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="about.html">About</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="services.html">Services</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="portfolio.html">Portfolio</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="team.html">Team</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="blog.html">Blog</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-md-3 footer-links">
+          <h4>Our Services</h4>
+          <ul>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Managing Your Volunteer Organization</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">How VolunteerHub Keeps Your Organization on Track</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Manage Missions and Achievements</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Effortless Communication</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-4 col-md-12">
+          <h4>Follow Us</h4>
+          <div class="social-links d-flex">
+            <a href=""><i class="bi bi-twitter-x"></i></a>
+            <a href=""><i class="bi bi-facebook"></i></a>
+            <a href=""><i class="bi bi-instagram"></i></a>
+            <a href=""><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">VolunteerHub</strong> <span>All Rights Reserved</span></p>
+    </div>
+  </footer>
+
+  <script>
+    // Handle URL parameters for success/error messages
+    document.addEventListener('DOMContentLoaded', function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const messageAlert = document.getElementById('messageAlert');
+      
+      if (urlParams.get('success') === '1') {
+        messageAlert.style.display = 'block';
+        messageAlert.style.background = '#d4edda';
+        messageAlert.style.color = '#155724';
+        messageAlert.style.border = '1px solid #c3e6cb';
+        messageAlert.textContent = '✓ Thank you for your message! We will get back to you soon.';
+        // Remove success parameter from URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        // Scroll to message
+        messageAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else if (urlParams.get('error')) {
+        messageAlert.style.display = 'block';
+        messageAlert.style.background = '#f8d7da';
+        messageAlert.style.color = '#721c24';
+        messageAlert.style.border = '1px solid #f5c6cb';
+        
+        const error = urlParams.get('error');
+        if (error === 'missing_fields') {
+          messageAlert.textContent = '✗ Please fill in all required fields.';
+        } else if (error === 'invalid_email') {
+          messageAlert.textContent = '✗ Please enter a valid email address.';
+        } else if (error === 'db_error') {
+          messageAlert.textContent = '✗ There was an error sending your message. Please try again.';
+        } else {
+          messageAlert.textContent = '✗ An error occurred. Please try again.';
+        }
+        // Remove error parameter from URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+        // Scroll to message
+        messageAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+
+    // Handle form submission
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+      contactForm.addEventListener('submit', function(e) {
+        const submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending...';
+        }
+        // Form will submit normally to contact.php
+        // The PHP script will redirect back with success/error parameter
+      });
+    }
+  </script>
+
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
 </html>

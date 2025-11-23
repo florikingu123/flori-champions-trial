@@ -111,10 +111,11 @@
     }
 
   </style>
+  <?php include 'includes/theme_includes.php'; ?>
 </head>
 <body>
 
-  <div class="title">Signed up for your Family</div>
+  <div class="title">Signed up for your Organization</div>
 
  
 
@@ -123,3 +124,6 @@
 
 </body>
 </html>
+
+
+

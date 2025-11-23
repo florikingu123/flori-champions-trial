@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Services - Famify</title>
+  <title>Services - VolunteerHub</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -28,6 +28,7 @@
   <link href="assets/css/main.css" rel="stylesheet">
 
 
+  <?php include 'includes/theme_includes.php'; ?>
 </head>
 
 <body class="services-page">
@@ -38,7 +39,7 @@
       <a href="index.html" class="logo d-flex align-items-center">
         <!-- Uncomment the line below if you also wish to use an image logo -->
         <!-- <img src="assets/img/logo.png" alt=""> -->
-        <h1 class="sitename">Famify</h1>
+        <h1 class="sitename">VolunteerHub</h1>
       </a>
 
       <nav id="navmenu" class="navmenu">
@@ -64,7 +65,7 @@
     <div class="page-title dark-background">
       <div class="container position-relative">
         <h1>Our Services</h1>
-        <p>Explore how Famify transforms family management with chore assignments, progress tracking, and a rewarding system designed for every household.</p>
+        <p>Explore how VolunteerHub transforms volunteer management with mission assignments, progress tracking, and an achievement system designed for every organization.</p>
         <nav class="breadcrumbs">
           <ol>
             <li><a href="index.html">Home</a></li>
@@ -84,66 +85,63 @@
 
           <section id="featured-services" class="featured-services section">
             <div class="container">
-    
+              <div class="section-title" data-aos="fade-up">
+                <h2>Our Services</h2>
+                <p>Discover how VolunteerHub transforms volunteer management with our comprehensive suite of features</p>
+              </div>
+
               <div class="row gy-4">
-          
                 <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                  <div class="service-item item-cyan position-relative">
+                  <div class="service-item item-cyan">
                     <div class="icon">
                       <i class="bi bi-people"></i>
                     </div>
-                    <a href="#" class="stretched-link">
-                      <h3>Family Management</h3>
-                    </a>
-                    <p>Create and manage your family group with ease. Add members, assign roles, and start organizing tasks in minutes to keep everyone connected and productive.</p>
+                    <h3>Organization Management</h3>
+                    <p>Create and manage your volunteer organization with ease. Add volunteers, assign roles, and start organizing missions in minutes.</p>
+                    <a href="#" class="read-more">Learn More <i class="bi bi-arrow-right"></i></a>
                   </div>
                 </div>
-          
+
                 <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                  <div class="service-item item-orange position-relative">
+                  <div class="service-item item-orange">
                     <div class="icon">
                       <i class="bi bi-card-checklist"></i>
                     </div>
-                    <a href="#" class="stretched-link">
-                      <h3>Chore Assignments</h3>
-                    </a>
-                    <p>Assign chores to family members with ease. Keep track of completed tasks and reward progress to motivate everyone in the household.</p>
+                    <h3>Mission Assignments</h3>
+                    <p>Assign missions to volunteers with ease. Keep track of completed tasks and reward progress to motivate everyone.</p>
+                    <a href="#" class="read-more">Learn More <i class="bi bi-arrow-right"></i></a>
                   </div>
                 </div>
-          
+
                 <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                  <div class="service-item item-teal position-relative">
+                  <div class="service-item item-teal">
                     <div class="icon">
                       <i class="bi bi-graph-up"></i>
                     </div>
-                    <a href="#" class="stretched-link">
-                      <h3>Progress Tracking</h3>
-                    </a>
-                    <p>Monitor your family’s progress through detailed charts and tables. See who’s excelling and who might need a little extra encouragement.</p>
+                    <h3>Progress Tracking</h3>
+                    <p>Monitor your organization's progress through detailed charts and tables. See who's excelling and who needs encouragement.</p>
+                    <a href="#" class="read-more">Learn More <i class="bi bi-arrow-right"></i></a>
                   </div>
                 </div>
-          
+
                 <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
-                  <div class="service-item item-red position-relative">
+                  <div class="service-item item-red">
                     <div class="icon">
                       <i class="bi bi-gift"></i>
                     </div>
-                    <a href="#" class="stretched-link">
-                      <h3>Rewards System</h3>
-                    </a>
-                    <p>Set up a rewards system where completed chores earn points that can be redeemed for exciting products or family privileges.</p>
+                    <h3>Achievement System</h3>
+                    <p>Set up an achievement system where completed missions earn volunteer hours that can be redeemed for exciting rewards or recognition.</p>
+                    <a href="#" class="read-more">Learn More <i class="bi bi-arrow-right"></i></a>
                   </div>
                 </div>
-          
               </div>
-          
             </div>
           </section>
           <section id="services" class="services section">
             <div class="container" data-aos="fade-up">
               <div class="section-title">
                 <h2>Our Features</h2>
-                <p>Discover how Famify can transform the way your family manages chores, earns points, and redeems rewards together.</p>
+                <p>Discover how VolunteerHub can transform the way your organization manages missions, tracks volunteer hours, and recognizes achievements together.</p>
               </div>
           
               <div class="row">
@@ -151,13 +149,13 @@
                 <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="200">
                   <div class="service-item position-relative">
                     <div class="img">
-                      <img src="assets/img/services-1.jpg" class="img-fluid" alt="Dashboard Overview">
+                      <img src="voulenteers/joel-muniz-y3ZY6qFln_g-unsplash.jpg" class="img-fluid" alt="Mission Dashboard">
                     </div>
                     <div class="details">
                       <a href="service-details.html" class="stretched-link">
-                        <h3>Chore Dashboard</h3>
+                        <h3>Mission Dashboard</h3>
                       </a>
-                      <p>Track all your family chores in one place. Stay organized with tasks assigned to each member and monitor progress effortlessly.</p>
+                      <p>Track all your volunteer missions in one place. Stay organized with tasks assigned to each volunteer and monitor progress effortlessly.</p>
                     </div>
                   </div>
                 </div><!-- End Service Item -->
@@ -165,13 +163,13 @@
                 <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="300">
                   <div class="service-item position-relative">
                     <div class="img">
-                      <img src="assets/img/services-2.jpg" class="img-fluid" alt="Earn Points">
+                      <img src="voulenteers/ray-sangga-kusuma-7uSrOyY1U0I-unsplash.jpg" class="img-fluid" alt="Earn Volunteer Hours">
                     </div>
                     <div class="details">
                       <a href="service-details.html" class="stretched-link">
-                        <h3>Earn Points</h3>
+                        <h3>Earn Volunteer Hours</h3>
                       </a>
-                      <p>Complete chores and earn points! Famify gamifies household tasks to keep everyone motivated and engaged in family activities.</p>
+                      <p>Complete missions and earn volunteer hours! VolunteerHub gamifies volunteer tasks to keep everyone motivated and engaged in community activities.</p>
                     </div>
                   </div>
                 </div><!-- End Service Item -->
@@ -179,13 +177,13 @@
                 <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="400">
                   <div class="service-item position-relative">
                     <div class="img">
-                      <img src="assets/img/services-3.jpg" class="img-fluid" alt="Family Rewards">
+                      <img src="voulenteers/brian-yurasits-PzQNdXw2a6g-unsplash.jpg" class="img-fluid" alt="Organization Achievements">
                     </div>
                     <div class="details">
                       <a href="service-details.html" class="stretched-link">
-                        <h3>Family Memories</h3>
+                        <h3>Organization Achievements</h3>
                       </a>
-                      <p>Family managers and members could have a great memory on famify and be sure to have photos as memories</p>
+                      <p>Organization administrators and volunteers can track achievements and milestones on VolunteerHub and be sure to have photos as memories</p>
                     </div>
                   </div>
                 </div><!-- End Service Item -->
@@ -193,13 +191,13 @@
                 <div class="col-lg-6" data-aos="zoom-in" data-aos-delay="500">
                   <div class="service-item position-relative">
                     <div class="img">
-                      <img src="assets/img/services-4.jpg" class="img-fluid" alt="Chatbot Assistance">
+                      <img src="voulenteers/the-tampa-bay-estuary-program-CxL29J-aM5E-unsplash.jpg" class="img-fluid" alt="AI Volunteer Support">
                     </div>
                     <div class="details">
                       <a href="service-details.html" class="stretched-link">
-                        <h3>Chatbot Assistance</h3>
+                        <h3>AI Volunteer Support</h3>
                       </a>
-                      <p>Need help with chores? Our intelligent chatbot is here to guide you, answer questions, and make managing chores easier than ever.</p>
+                      <p>Need help with missions? Our intelligent AI assistant is here to guide you, answer questions, and make managing volunteer missions easier than ever.</p>
                     </div>
                   </div>
                 </div><!-- End Service Item -->
@@ -208,66 +206,118 @@
             </div>
           </section><!-- End Services Section -->
           
-          <section id="pricing" class="pricing section">
-            <div class="container section-title" data-aos="fade-up">
-              <h2>Pricing</h2>
-              <p>Choose a plan that fits your family's needs and start organizing your household tasks effortlessly.</p>
-            </div><!-- End Section Title -->
-          
-            <div class="container">
-              <div class="row g-4 g-lg-0">
-          
-                <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
-                  <div class="pricing-item">
-                    <h3>Starter Plan</h3>
-                    <h4><sup>$</sup>0<span> / month</span></h4>
-                    <ul>
-                      <li><i class="bi bi-check"></i> <span>Access to basic dashboard features</span></li>
-                      <li><i class="bi bi-check"></i> <span>Assign chores to family members</span></li>
-                      <li><i class="bi bi-check"></i> <span>Track chore completion and points</span></li>
-                      <li class="na"><i class="bi bi-x"></i> <span>Set up family rewards</span></li>
-                      <li class="na"><i class="bi bi-x"></i> <span>Chatbot assistance</span></li>
-                    </ul>
-                    <div class="text-center"><a href="#" class="buy-btn">Get Started</a></div>
+          <section id="testimonials" class="testimonials section">
+            <div class="container" data-aos="fade-up">
+              <div class="section-title">
+                <h2>What Our Organizations Say</h2>
+                <p>Hear from organizations who have transformed their volunteer management with VolunteerHub</p>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                  <div class="testimonial-item">
+                    <div class="testimonial-img">
+                      <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="Family 1">
+                    </div>
+                    <h3>Community Volunteers</h3>
+                    <h4>5 Volunteers</h4>
+                    <p>
+                      <i class="bi bi-quote quote-icon-left"></i>
+                      VolunteerHub has completely transformed how we manage our organization. The mission assignments and achievement system have made our volunteers more engaged and motivated.
+                      <i class="bi bi-quote quote-icon-right"></i>
+                    </p>
                   </div>
-                </div><!-- End Pricing Item -->
-          
-                <div class="col-lg-4 featured" data-aos="zoom-in" data-aos-delay="200">
-                  <div class="pricing-item">
-                    <h3>Family Plan</h3>
-                    <h4><sup>$</sup>9<span> / month</span></h4>
-                    <ul>
-                      <li><i class="bi bi-check"></i> <span>All Starter Plan features</span></li>
-                      <li><i class="bi bi-check"></i> <span>Set up family rewards</span></li>
-                      <li><i class="bi bi-check"></i> <span>Customize chores and rewards</span></li>
-                      <li><i class="bi bi-check"></i> <span>Chatbot assistance for chores</span></li>
-                      <li><i class="bi bi-check"></i> <span>Priority support</span></li>
-                    </ul>
-                    <div class="text-center"><a href="#" class="buy-btn">Subscribe Now</a></div>
+                </div>
+
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                  <div class="testimonial-item">
+                    <div class="testimonial-img">
+                      <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="Family 2">
+                    </div>
+                    <h3>Local Community Group</h3>
+                    <h4>4 Volunteers</h4>
+                    <p>
+                      <i class="bi bi-quote quote-icon-left"></i>
+                      The progress tracking feature helps us stay organized and ensures everyone contributes equally. It's like having a personal organization assistant!
+                      <i class="bi bi-quote quote-icon-right"></i>
+                    </p>
                   </div>
-                </div><!-- End Pricing Item -->
-          
-                <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="100">
-                  <div class="pricing-item">
-                    <h3>Pro Plan</h3>
-                    <h4><sup>$</sup>19<span> / month</span></h4>
-                    <ul>
-                      <li><i class="bi bi-check"></i> <span>All Family Plan features</span></li>
-                      <li><i class="bi bi-check"></i> <span>Advanced analytics</span></li>
-                      <li><i class="bi bi-check"></i> <span>Unlimited rewards and customizations</span></li>
-                      <li><i class="bi bi-check"></i> <span>Dedicated support</span></li>
-                      <li><i class="bi bi-check"></i> <span>Exclusive content and tips</span></li>
-                    </ul>
-                    <div class="text-center"><a href="#" class="buy-btn">Subscribe Now</a></div>
+                </div>
+
+                <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                  <div class="testimonial-item">
+                    <div class="testimonial-img">
+                      <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="Family 3">
+                    </div>
+                    <h3>Regional Volunteers</h3>
+                    <h4>6 Volunteers</h4>
+                    <p>
+                      <i class="bi bi-quote quote-icon-left"></i>
+                      The AI volunteer support is a game-changer! It helps us coordinate missions and find creative solutions for managing our busy organization.
+                      <i class="bi bi-quote quote-icon-right"></i>
+                    </p>
                   </div>
-                </div><!-- End Pricing Item -->
-          
+                </div>
               </div>
             </div>
-          </section><!-- End Pricing Section -->
-          
+          </section><!-- End Testimonials Section -->
 
-    </section><!-- /Pricing Section -->
+          <section id="how-it-works" class="how-it-works section">
+            <div class="container" data-aos="fade-up">
+              <div class="section-title">
+                <h2>How VolunteerHub Works</h2>
+                <p>Simple steps to transform your volunteer organization experience</p>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                  <div class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="icon">
+                      <i class="bi bi-person-plus"></i>
+                    </div>
+                    <h3>Create Your Organization</h3>
+                    <p>Sign up and add your volunteers to start organizing your organization together.</p>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                  <div class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="icon">
+                      <i class="bi bi-list-check"></i>
+                    </div>
+                    <h3>Assign Tasks</h3>
+                    <p>Create and assign missions to volunteers with clear instructions and deadlines.</p>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                  <div class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="icon">
+                      <i class="bi bi-graph-up"></i>
+                    </div>
+                    <h3>Track Progress</h3>
+                    <p>Monitor completion rates and celebrate achievements with our achievement system.</p>
+                  </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                  <div class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="icon">
+                      <i class="bi bi-trophy"></i>
+                    </div>
+                    <h3>Earn Achievements</h3>
+                    <p>Redeem volunteer hours for recognition or special rewards to keep everyone motivated.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section><!-- End How It Works Section -->
+
+    </section><!-- /Services Section -->
 
   </main>
 
@@ -296,13 +346,13 @@
       <div class="row gy-4">
         <div class="col-lg-4 col-md-6 footer-about">
           <a href="index.html" class="d-flex align-items-center">
-            <span class="sitename">Famify</span>
+            <span class="sitename">VolunteerHub</span>
           </a>
           <div class="footer-contact pt-3">
             <p>1234 Elm Street</p>
             <p>Los Angeles, CA 90001</p>
             <p class="mt-3"><strong>Phone:</strong> <span>+1 2345 6789 01</span></p>
-            <p><strong>Email:</strong> <span>famify@info.com</span></p>
+            <p><strong>Email:</strong> <span>volunteerhub@info.com</span></p>
           </div>
         </div>
   
@@ -321,9 +371,9 @@
         <div class="col-lg-2 col-md-3 footer-links">
           <h4>Our Services</h4>
           <ul>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Keeping Your Family Organized</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">How Famify Keeps Your Family on Track</a></li>
-            <li><i class="bi bi-chevron-right"></i> <a href="#">Manage Chores and Rewards</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Managing Your Volunteer Organization</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">How VolunteerHub Keeps Your Organization on Track</a></li>
+            <li><i class="bi bi-chevron-right"></i> <a href="#">Manage Missions and Achievements</a></li>
             <li><i class="bi bi-chevron-right"></i> <a href="#">Effortless Communication</a></li>
           </ul>
         </div>
@@ -342,7 +392,7 @@
     </div>
   
     <div class="container copyright text-center mt-4">
-      <p>© <span>Copyright</span> <strong class="px-1 sitename">Famify</strong> <span>All Rights Reserved</span></p>
+      <p>© <span>Copyright</span> <strong class="px-1 sitename">VolunteerHub</strong> <span>All Rights Reserved</span></p>
     </div>
   
   </footer>
@@ -367,6 +417,205 @@
   <!-- Main JS File -->
   <script src="assets/js/main.js"></script>
 
+  <style>
+    .service-item {
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px;
+      height: 100%;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .service-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .service-item .icon {
+      font-size: 3rem;
+      color: #5c4d3c;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .service-item:hover .icon {
+      transform: scale(1.1);
+    }
+
+    .service-item h3 {
+      color: #5c4d3c;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    .service-item p {
+      color: #6c757d;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .service-item .read-more {
+      color: #5c4d3c;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .service-item .read-more:hover {
+      color: #4a3f31;
+      transform: translateX(5px);
+    }
+
+    .service-item.item-cyan {
+      border-top: 4px solid #5c4d3c;
+    }
+
+    .service-item.item-orange {
+      border-top: 4px solid #5c4d3c;
+    }
+
+    .service-item.item-teal {
+      border-top: 4px solid #5c4d3c;
+    }
+
+    .service-item.item-red {
+      border-top: 4px solid #5c4d3c;
+    }
+
+    .service-item.item-cyan:hover {
+      background: #f8f9fa;
+    }
+
+    .service-item.item-orange:hover {
+      background: #f8f9fa;
+    }
+
+    .service-item.item-teal:hover {
+      background: #f8f9fa;
+    }
+
+    .service-item.item-red:hover {
+      background: #f8f9fa;
+    }
+
+    /* Testimonials Section Styles */
+    .testimonial-item {
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px;
+      height: 100%;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .testimonial-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .testimonial-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      overflow: hidden;
+    }
+
+    .testimonial-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .testimonial-item h3 {
+      color: #5c4d3c;
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+
+    .testimonial-item h4 {
+      color: #6c757d;
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    .testimonial-item p {
+      color: #6c757d;
+      font-style: italic;
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+
+    .quote-icon-left, .quote-icon-right {
+      color: #FFD3B5;
+      font-size: 1.2rem;
+      margin: 0 5px;
+    }
+
+    /* How It Works Section Styles */
+    .step-item {
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px;
+      height: 100%;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .step-item:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+
+    .step-number {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #FFD3B5;
+      opacity: 0.3;
+    }
+
+    .step-item .icon {
+      font-size: 3rem;
+      color: #5c4d3c;
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .step-item:hover .icon {
+      transform: scale(1.1);
+    }
+
+    .step-item h3 {
+      color: #5c4d3c;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    .step-item p {
+      color: #6c757d;
+      margin-bottom: 0;
+      line-height: 1.6;
+    }
+  </style>
+
 </body>
 
+</html>
+</html>
+</html>
 </html>

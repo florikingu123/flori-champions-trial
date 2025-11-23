@@ -1,5 +1,3 @@
-
-
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
@@ -19,8 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $number = filter_var(trim($_POST["number"]), FILTER_SANITIZE_STRING);
     $is_admin = isset($_POST["is_admin"]) ? 1 : 0;
 
-    // Debugging: Check if form data is received
-    var_dump($_POST);
+    // Form data validation (removed debug output for production)
 
     // Validate required fields
     if (empty($email) || empty($password) || empty($number)) {
@@ -82,233 +79,211 @@ $conn->close();
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sign Up for Your Family</title>
-  
-  <style>
-    body, html {
-      height: 100%;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f0f0f0;
-    }
-
-    .form-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      height: 100%;
-    }
-
-    .form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      background: linear-gradient(45deg, #6C757D, #4A4A4A);
-      padding: 30px;
-      width: 450px;
-      border-radius: 20px;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      transition: background 0.6s ease-in-out;
-    }
-
-    .form:hover {
-      background: linear-gradient(45deg, #4A4A4A, #6C757D);
-    }
-
-    ::placeholder {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
-      color: #6C757D;
-    }
-
-    .form button {
-      align-self: center;
-      background: #6C757D;
-      color: white;
-      border: 2px solid #4A4A4A;
-    }
-
-    .form button:hover {
-      background: #4A4A4A;
-      color: #fff;
-      border: 2px solid #6C757D;
-    }
-
-    .form button:active {
-      transform: scale(0.9);
-    }
-
-    .flex-column > label {
-      color: white;
-      font-weight: 600;
-    }
-
-    .inputForm {
-      border: 1.5px solid #6C757D;
-      border-radius: 10em;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      padding-left: 10px;
-      transition: border 0.3s ease-in-out;
-      background-color: white;
-    }
-
-    .input {
-      margin-left: 10px;
-      border-radius: 10rem;
-      border: none;
-      width: 100%;
-      height: 100%;
-    }
-
-    .input:focus {
-      outline: none;
-    }
-
-    .inputForm:focus-within {
-      border: 1.5px solid #4A4A4A;
-    }
-
-    .flex-row {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 10px;
-      justify-content: space-between;
-    }
-
-    .flex-row > div > label {
-      font-size: 14px;
-      color: white;
-      font-weight: 400;
-    }
-
-    .span {
-      font-size: 14px;
-      margin-left: 5px;
-      color: white;
-      font-weight: 500;
-      cursor: pointer;
-      text-decoration : none;
-    }
-
-    .button-submit {
-      position: relative;
-      display: inline-block;
-      padding: 15px 10px 15px 10px;
-      text-align: center;
-      letter-spacing: 1px;
-      text-decoration: none;
-      background: transparent;
-      transition: ease-out 0.5s;
-      border: 2px solid;
-      border-radius: 10em;
-      box-shadow: inset 0 0 0 0 #6C757D;
-      margin: 20px 0 0 0;
-      color: white;
-      font-size: 15px;
-      font-weight: 500;
-      height: 20px 20px 20px;
-      width: 85%;
-      cursor: pointer;
-    }
-
-    .button-submit:hover {
-      color: white;
-      box-shadow: inset 0 -100px 0 0 #4A4A4A;
-    }
-
-    .button-submit:active {
-      transform: scale(0.9);
-    }
-
-    .p {
-      text-align: center;
-      color: white;
-      font-size: 14px;
-      margin: 10px 0 0 0;
-    }
-
-    .form-title {
-      text-align: center;
-      color: white;
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-  </style>
-
-  <script>
-    function validatePassword() {
-        const password = document.getElementById("password").value;
-        const passwordError = document.getElementById("password-error");
-        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-        if (!regex.test(password)) {
-            passwordError.style.display = "block";
-            return false;
-        } else {
-            passwordError.style.display = "none";
-            return true;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up for Your Organization - VolunteerHub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
-    }
 
-    function togglePassword() {
-        const passwordInput = document.getElementById("password");
-        passwordInput.type = passwordInput.type === "password" ? "text" : "password";
-    }
-
-    function validateForm(event) {
-        if (!validatePassword()) {
-            event.preventDefault();
-            alert("Password does not meet security requirements.");
+        .form-container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
         }
-    }
-  </script>
+
+        .form {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .form:hover {
+            transform: translateY(-5px);
+        }
+
+        .form-title {
+            color: #333;
+            font-size: 28px;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            display: block;
+            color: #555;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .inputForm {
+            position: relative;
+            border: 2px solid #e1e1e1;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .inputForm:focus-within {
+            border-color: #FFD3B5;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(255, 211, 181, 0.1);
+        }
+
+        .input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: transparent;
+            font-size: 15px;
+            color: #333;
+        }
+
+        .input:focus {
+            outline: none;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #666;
+            user-select: none;
+        }
+
+        .password-error {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .button-submit {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            color: #333;
+            background: #FFD3B5;
+            margin-top: 10px;
+        }
+
+        .button-submit:hover {
+            background: #FFAAA5;
+            transform: translateY(-2px);
+        }
+
+        .p {
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+        .span {
+            color: #FFD3B5;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .span:hover {
+            color: #FFAAA5;
+        }
+
+        @media (max-width: 480px) {
+            .form {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <div class="form-container">
+        <form class="form" action="signup.php" method="POST" onsubmit="validateForm(event)">
+            <div class="form-title">Sign Up for Your Organization</div>
 
-<div class="form-container">
-    <form class="form" action="signup.php" method="POST" onsubmit="validateForm(event)">
-      <div class="form-title">Sign Up for Your Family</div>
+            <div class="input-group">
+                <label>Email Address</label>
+                <div class="inputForm">
+                    <input placeholder="Enter your Email" class="input" type="email" name="email" required />
+                </div>
+            </div>
 
-      <div class="flex-column">
-        <label>Email</label>
-      </div>
-      <div class="inputForm">
-        <input placeholder="Enter your Email" class="input" type="email" name="email" required />
-      </div>
+            <div class="input-group">
+                <label>Password</label>
+                <div class="inputForm">
+                    <input id="password" placeholder="Enter your Password" class="input" type="password" name="password" required />
+                    <span class="toggle-password" onclick="togglePassword()">👁️</span>
+                </div>
+                <div class="password-error" id="password-error">
+                    Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.
+                </div>
+            </div>
 
-      <div class="flex-column">
-        <label>Password</label>
-      </div>
-      <div class="inputForm password-container">
-        <input id="password" placeholder="Enter your Password" class="input" type="password" name="password" required />
-        <span class="toggle-password" onclick="togglePassword()">👁️</span>
-      </div>
-      <div class="password-error" id="password-error" style="color: red; font-size: 12px; display: none;">
-        Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.
-      </div>
+            <div class="input-group">
+                <label>Phone Number</label>
+                <div class="inputForm">
+                    <input placeholder="Enter your Number" class="input" type="text" name="number" required />
+                </div>
+            </div>
 
-      <div class="flex-column">
-        <label>Number</label>
-      </div>
-      <div class="inputForm">
-        <input placeholder="Enter your Number" class="input" type="text" name="number" required />
-      </div>
+            <button type="submit" class="button-submit">Sign Up</button>
 
-      <button type="submit" class="button-submit">Sign Up</button>
+            <p class="p">Already have an account? <a href="signin.php" class="span">Sign In</a></p>
+        </form>
+    </div>
 
-      <p class="p">Already have an account? <a href="signin.php" class="span">Sign In</a></p>
-    </form>
-</div>
+    <script>
+        function validatePassword() {
+            const password = document.getElementById("password").value;
+            const passwordError = document.getElementById("password-error");
+            const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
+            if (!regex.test(password)) {
+                passwordError.style.display = "block";
+                return false;
+            } else {
+                passwordError.style.display = "none";
+                return true;
+            }
+        }
+
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            passwordInput.type = passwordInput.type === "password" ? "text" : "password";
+        }
+
+        function validateForm(event) {
+            if (!validatePassword()) {
+                event.preventDefault();
+                alert("Password does not meet security requirements.");
+            }
+        }
+    </script>
 </body>
 </html>
