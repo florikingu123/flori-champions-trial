@@ -1,15 +1,15 @@
- fix:root {
-  --background-color: #F9F9F9; /* Soft White */
-  --default-color: #4A4A4A; /* Neutral Gray */
-  --heading-color: #6C757D; /* Cool Gray */
-  --accent-color: #FFDDC1; /* Warm Peach */
-  --surface-color: #E7E8EA; /* Light Gray */
-  --contrast-color: #4A4A4A; /* Neutral Gray */
+fix:root {
+ --background-color: #F9F9F9; /* Soft White */
+ --default-color: #4A4A4A; /* Neutral Gray */
+ --heading-color: #2A2A2A; /* Dark Gray */
+ --accent-color: #FFDDC1; /* Warm Peach */
+ --surface-color: #E7E8EA; /* Light Gray */
+ --contrast-color: #4A4A4A; /* Neutral Gray */
 }
 
 :root {
-  --nav-color: #FFFFFF; /* Pure White */
-  --nav-hover-color: black; /* Warm Peach */
+  --nav-color: #4A4A4A; /* Dark Gray */
+  --nav-hover-color: #333; /* Darker Gray */
   --nav-mobile-background-color: #F9F9F9; /* Soft White */
   --nav-dropdown-background-color: #E7E8EA; /* Light Gray */
   --nav-dropdown-color: #4A4A4A; /* Neutral Gray */
@@ -24,7 +24,7 @@
 .dark-background {
   --background-color: #E7E8EA; /* Light Gray */
   --default-color: #4A4A4A; /* Neutral Gray */
-  --heading-color: #4A4A4A; /* Neutral Gray */
+  --heading-color: #2A2A2A; /* Dark Gray */
   --surface-color: #FFDDC1; /* Warm Peach */
   --contrast-color: #FFFFFF; /* Pure White */
 }
@@ -198,11 +198,11 @@ h6 {
 
 
 .header {
-  --background-color: rgba(255, 255, 255, 0);
-  --default-color: #ffffff;
-  --heading-color: #ffffff;
+  --background-color: #FFDDC1 !important;
+  --default-color: #4A4A4A;
+  --heading-color: #2A2A2A;
   color: var(--default-color);
-  background-color: var(--background-color);
+  background-color: #FFDDC1 !important;
   padding: 15px 0;
   transition: all 0.5s;
   z-index: 997;
@@ -226,7 +226,10 @@ h6 {
 
 
 .scrolled .header {
-  --background-color: #FFDDC1 ;
+  --background-color: #FFDDC1 !important;
+  --default-color: #4A4A4A;
+  --heading-color: #2A2A2A;
+  background-color: #FFDDC1 !important;
 }
 
 @media (min-width: 1200px) {
@@ -248,7 +251,7 @@ h6 {
 
   .navmenu a,
   .navmenu a:focus {
-    color: var(--nav-color);
+    color: #4A4A4A !important;
     padding: 18px 15px;
     font-size: 16px;
     font-family: var(--nav-font);
@@ -334,7 +337,7 @@ h6 {
 
 @media (max-width: 1199px) {
   .mobile-nav-toggle {
-    color: var(--nav-color);
+    color: #4A4A4A !important;
     font-size: 28px;
     line-height: 0;
     margin-right: 10px;
@@ -364,7 +367,7 @@ h6 {
 
   .navmenu a,
   .navmenu a:focus {
-    color: var(--nav-dropdown-color);
+    color: #4A4A4A !important;
     padding: 10px 20px;
     font-family: var(--nav-font);
     font-size: 17px;
